@@ -2,7 +2,7 @@
 <nios2_config version="1.0">
     <system>
         <system_info filepath="true">..\hardware\nios_system\nios_system.qsys</system_info>
-        <system_sof filepath="true">..\hardware\ee109_media_computer.sof</system_sof>
+        <system_sof filepath="true">..\hardware\ee109_media_computer_time_limited.sof</system_sof>
         <system_jdi filepath="true">..\hardware\ee109_media_computer.jdi</system_jdi>
         <cable>USB-Blaster [USB-0]</cable>
         <processor JTAGHubInstanceID="0">CPU</processor>
@@ -28,6 +28,7 @@
                 <source_file filepath="true">src\audio_isr.c</source_file>
                 <source_file filepath="true">src\ee109-lib\audio.c</source_file>
                 <source_file filepath="true">src\belfft\kiss_fft.c</source_file>
+                <source_file filepath="true">src\tlda\tlda.c</source_file>
             </source_files>
             <bsp_settings_tcl_script filepath="true"/>
         </options>
