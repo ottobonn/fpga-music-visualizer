@@ -255,13 +255,13 @@ int fft ()
 void draw_fft ()
 {
   lcd_draw_rectangle (0, 0, LCD_RES_X, LCD_RES_Y, BLACK);
-  const size_t bar_width = 4;
+  const size_t bar_width = 5;
 
   int i;
   for (i = 0; i < FFT_LEN / 2; i++)
     {
       int value = (int) average_power_spectrum[i];
-      lcd_draw_rectangle (bar_width * i, LCD_RES_Y - value, bar_width, value, WHITE);
+      lcd_draw_rectangle (bar_width * i, LCD_RES_Y - value, bar_width, value, rand () % 0x10000);
     }
 
   lcd_swap_buffers ();
