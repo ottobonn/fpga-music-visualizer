@@ -1,0 +1,86 @@
+
+# Object files
+*.o
+*.ko
+*.obj
+*.elf
+*.map
+*.objdump
+*.srec
+
+# Precompiled Headers
+*.gch
+*.pch
+
+# Libraries
+*.lib
+*.a
+*.la
+*.lo
+
+# Shared objects (inc. Windows DLLs)
+*.dll
+*.so
+*.so.*
+*.dylib
+
+# flock files
+*.flock
+
+# Executables
+*.exe
+*.out
+*.app
+*.i*86
+*.x86_64
+*.hex
+
+# Debug files
+*.dSYM/
+
+# Library folders
+BSP/
+obj/
+
+# Quartus II generated files
+*_generation_script*
+*_inst.vhd
+*.bak
+*.cmp
+*.done
+*.eqn
+*.hex
+*.html
+*.jdi
+*.jpg
+*.mif
+*.pin
+*.pof
+*.ptf.*
+*.qar
+*.qarlog
+*.qws
+*.rpt
+*.smsg
+*.sof
+*.sopc_builder
+*.summary
+*.tcl
+*.txt # Explicitly add any text files used
+*~
+*example*
+*sopc_*
+*.sdc
+
+# Quartus II generated folders
+db/
+incremental_db/
+simulation/
+timing/
+*_sim/
+
+# Debug files
+*.dSYM/
+
+# Automated Makefile
+Makefile

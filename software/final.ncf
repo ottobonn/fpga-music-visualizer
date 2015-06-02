@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<nios2_config version="1.0">
+    <system>
+        <system_info filepath="true">..\hardware\nios_system\nios_system.qsys</system_info>
+        <system_sof filepath="true">..\hardware\ee109_media_computer.sof</system_sof>
+        <system_jdi filepath="true">..\hardware\ee109_media_computer.jdi</system_jdi>
+        <cable>USB-Blaster [USB-0]</cable>
+        <processor JTAGHubInstanceID="0">CPU</processor>
+        <terminal JTAGHubInstanceID="0">JTAG_UART</terminal>
+    </system>
+    <program>
+        <type>BSP</type>
+        <options>
+            <source_files>
+                <source_file filepath="true">src\ethernet_isr.c</source_file>
+                <source_file filepath="true">src\pushbuttons_isr.c</source_file>
+                <source_file filepath="true">src\switches_isr.c</source_file>
+                <source_file filepath="true">src\system_globals.c</source_file>
+                <source_file filepath="true">src\ee109-lib\green_leds.c</source_file>
+                <source_file filepath="true">src\ee109-lib\hex.c</source_file>
+                <source_file filepath="true">src\ee109-lib\lcd.c</source_file>
+                <source_file filepath="true">src\ee109-lib\pushbuttons.c</source_file>
+                <source_file filepath="true">src\ee109-lib\red_leds.c</source_file>
+                <source_file filepath="true">src\ee109-lib\switches.c</source_file>
+                <source_file filepath="true">src\ee109-lib\vga.c</source_file>
+                <source_file filepath="true">src\ee109-lib\char_lcd.c</source_file>
+                <source_file filepath="true">src\main.c</source_file>
+                <source_file filepath="true">src\audio_isr.c</source_file>
+                <source_file filepath="true">src\ee109-lib\audio.c</source_file>
+                <source_file filepath="true">src\belfft\kiss_fft.c</source_file>
+            </source_files>
+            <bsp_settings_tcl_script filepath="true"/>
+        </options>
+    </program>
+</nios2_config>

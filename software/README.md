@@ -1,0 +1,1 @@
+The root of this repo is lab2/ee109_media_computer/software.

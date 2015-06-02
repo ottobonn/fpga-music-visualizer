@@ -1,0 +1,366 @@
+m255
+K3
+13
+cModel Technology
+Z0 dC:\Users\tgeis\ee109\final\hardware\belfft\simulation_64
+vbel_avl_ram
+Z1 I@f=gc=L3Iz3TK`3Z>fNi=0
+Z2 VJZ69REJKj7kQLco0T4L3c0
+Z3 dC:\Users\tgeis\ee109\final\hardware\belfft\simulation_64
+Z4 w1432890613
+Z5 8bel_avl_ram.v
+Z6 Fbel_avl_ram.v
+L0 48
+Z7 OV;L;10.1d;51
+r1
+31
+o-O0
+!i10b 1
+Z8 !s100 [[OkgoTEC_@H8eJZbzVlV1
+!s85 0
+Z9 !s108 1432941831.472000
+Z10 !s107 bel_fft_def.v|bel_avl_ram.v|
+Z11 !s90 -reportprogress|300|bel_avl_ram.v|
+!s101 -O0
+vbel_butterfly2
+Z12 IRVTV0ZAWF>cU@Nz]I;P<m3
+Z13 V3HO@S3S00QT1g>0mXLNgX0
+R3
+R4
+Z14 8../bel_butterfly2.v
+Z15 F../bel_butterfly2.v
+L0 48
+R7
+r1
+31
+o-O0
+Z16 !s100 l]FFYYCIHhdJ@jKIIMo=[0
+Z17 !s108 1432941827.247000
+Z18 !s107 bel_fft_def.v|../bel_butterfly2.v|
+Z19 !s90 -reportprogress|300|../bel_butterfly2.v|
+!i10b 1
+!s85 0
+!s101 -O0
+vbel_butterfly4
+Z20 IdhDZei;Vf09gOo29gI8gk1
+Z21 VUS]:WIRVmm0HYP3F0SWDi2
+R3
+R4
+Z22 8../bel_butterfly4.v
+Z23 F../bel_butterfly4.v
+L0 49
+R7
+r1
+31
+o-O0
+Z24 !s100 X4i3jmFRan_29IZ1MTU2F0
+Z25 !s108 1432941826.952000
+Z26 !s107 bel_fft_def.v|../bel_butterfly4.v|
+Z27 !s90 -reportprogress|300|../bel_butterfly4.v|
+!i10b 1
+!s85 0
+!s101 -O0
+vbel_cadd
+Z28 Ij`TUK;]S?lXmd?B6QHY[@1
+Z29 V0M4>U2do_dDO1khON6LZ[1
+R3
+R4
+Z30 8../bel_cadd.v
+Z31 F../bel_cadd.v
+L0 45
+R7
+r1
+31
+o-O0
+Z32 !s100 _:L[4z78:^dV2mKo[zEAJ1
+Z33 !s108 1432941827.626000
+Z34 !s107 ../bel_cadd.v|
+Z35 !s90 -reportprogress|300|../bel_cadd.v|
+!i10b 1
+!s85 0
+!s101 -O0
+vbel_caddsub
+Z36 I<PkX4E=9fKKTU9j:^fLLW2
+Z37 Vj58BCJDJ_acT;TL99OAh60
+R3
+R4
+Z38 8../bel_caddsub.v
+Z39 F../bel_caddsub.v
+L0 45
+R7
+r1
+31
+o-O0
+Z40 !s100 L3Wk2TnYkJW2ZP>U18=3e1
+Z41 !s108 1432941827.840000
+Z42 !s107 ../bel_caddsub.v|
+Z43 !s90 -reportprogress|300|../bel_caddsub.v|
+!i10b 1
+!s85 0
+!s101 -O0
+vbel_cdiv2
+Z44 I2D?1J4CBQggHEzdh4Qf3b3
+Z45 VPn^e`K=ZEHhNG?T<^[J6C2
+R3
+R4
+Z46 8../bel_cdiv2.v
+Z47 F../bel_cdiv2.v
+L0 45
+R7
+r1
+31
+o-O0
+Z48 !s100 66CJLbAgW02[hkbg9`9?M1
+Z49 !s108 1432941828.259000
+Z50 !s107 ../bel_cdiv2.v|
+Z51 !s90 -reportprogress|300|../bel_cdiv2.v|
+!i10b 1
+!s85 0
+!s101 -O0
+vbel_cdiv4
+Z52 IA?G^WI05fmPW4a=Akm]oU2
+Z53 VMD_F;G1@UIkj6JR`8>_M01
+R3
+R4
+Z54 8../bel_cdiv4.v
+Z55 F../bel_cdiv4.v
+L0 45
+R7
+r1
+31
+o-O0
+Z56 !s100 <FT72@HMaz9GW@NH4hWI70
+Z57 !s108 1432941828.018000
+Z58 !s107 ../bel_cdiv4.v|
+Z59 !s90 -reportprogress|300|../bel_cdiv4.v|
+!i10b 1
+!s85 0
+!s101 -O0
+vbel_cmac
+Z60 IUilY>oDIdCg@D?ddCZCeM1
+Z61 VF_=`Q7Wn?Gg470ma=6`1B2
+R3
+R4
+Z62 8../bel_cmac.v
+Z63 F../bel_cmac.v
+L0 5
+R7
+r1
+31
+o-O0
+Z64 !s100 H41S_eWa:ULP85GUl06gb1
+Z65 !s108 1432941828.467000
+Z66 !s107 ../bel_cmac.v|
+Z67 !s90 -reportprogress|300|../bel_cmac.v|
+!i10b 1
+!s85 0
+!s101 -O0
+vbel_cmul
+Z68 I2JK^>g=40^gMX[MMBNh0l0
+Z69 VTTbL=j0:_CgFnLd>AC1V61
+R3
+R4
+Z70 8../bel_cmul.v
+Z71 F../bel_cmul.v
+L0 48
+R7
+r1
+31
+o-O0
+Z72 !s100 WVZ<X_=M?29f:UfLTV=[X3
+Z73 !s108 1432941828.668000
+Z74 !s107 bel_fft_def.v|../bel_cmul.v|
+Z75 !s90 -reportprogress|300|../bel_cmul.v|
+!i10b 1
+!s85 0
+!s101 -O0
+vbel_copy
+Z76 I7TYJhd4YHf8NP9k>P4=@C0
+Z77 VMzcO]jV1LUGglZIbaR>_h3
+R3
+R4
+Z78 8../bel_copy.v
+Z79 F../bel_copy.v
+L0 58
+R7
+r1
+31
+o-O0
+Z80 !s100 KonEMEYf8>kHMfaGH0hPe1
+Z81 !s108 1432941828.844000
+Z82 !s107 bel_fft_def.v|../bel_copy.v|
+Z83 !s90 -reportprogress|300|../bel_copy.v|
+!i10b 1
+!s85 0
+!s101 -O0
+vbel_csub
+Z84 IF0<kXK:QH_CHT=RVmn]U[0
+Z85 V6Q:PSRNOIHHh<0JRKVV6l2
+R3
+R4
+Z86 8../bel_csub.v
+Z87 F../bel_csub.v
+L0 45
+R7
+r1
+31
+o-O0
+Z88 !s100 E4PYWC0AzlmfQ]S2OOMJz1
+Z89 !s108 1432941829.052000
+Z90 !s107 ../bel_csub.v|
+Z91 !s90 -reportprogress|300|../bel_csub.v|
+!i10b 1
+!s85 0
+!s101 -O0
+vbel_fft_avl
+Z92 INm<39<TaiB@P7ia^TD_5m3
+Z93 Vh=JHCi_=c;zeTCjWej2dJ1
+R3
+R4
+Z94 8../bel_fft_avl.v
+Z95 F../bel_fft_avl.v
+L0 48
+R7
+r1
+31
+o-O0
+Z96 !s100 `j71;7XZaR?Yc_LM`?;811
+Z97 !s108 1432941829.828000
+Z98 !s107 bel_fft_def.v|../bel_fft_avl.v|
+Z99 !s90 -reportprogress|300|../bel_fft_avl.v|
+!i10b 1
+!s85 0
+!s101 -O0
+vbel_fft_avl_mif_16
+Z100 I>egW73=8l7QDOB4A=MHik3
+Z101 V_cZm[XKl0C6P>`3dE3l`k3
+R3
+R4
+Z102 8../bel_fft_avl_mif_16.v
+Z103 F../bel_fft_avl_mif_16.v
+L0 48
+R7
+r1
+31
+o-O0
+Z104 !s100 7T]Wbol?D9;4;akMQI_CK0
+Z105 !s108 1432941830.354000
+Z106 !s107 bel_fft_def.v|../bel_fft_avl_mif_16.v|
+Z107 !s90 -reportprogress|300|../bel_fft_avl_mif_16.v|
+!i10b 1
+!s85 0
+!s101 -O0
+vbel_fft_avl_sif
+Z108 IFSJXDTlE_W_VFImUhQUlQ1
+Z109 V]>@WbB9cWcfQTk4e85Z]B0
+R3
+R4
+Z110 8../bel_fft_avl_sif.v
+Z111 F../bel_fft_avl_sif.v
+L0 47
+R7
+r1
+31
+o-O0
+Z112 !s100 =0eKH8eh==`P31`41dj^K2
+Z113 !s108 1432941830.165000
+Z114 !s107 bel_fft_def.v|../bel_fft_avl_sif.v|
+Z115 !s90 -reportprogress|300|../bel_fft_avl_sif.v|
+!i10b 1
+!s85 0
+!s101 -O0
+vbel_fft_core
+Z116 IkN<T3ZYJSOzdPoGk9@cdC0
+Z117 VdnEf7Z<SB6PMh=EoR]aH[2
+R3
+R4
+Z118 8../bel_fft_core.v
+Z119 F../bel_fft_core.v
+L0 48
+R7
+r1
+31
+o-O0
+Z120 !s100 FlKD6QJNz_nM8_I7KVQm21
+Z121 !s108 1432941829.228000
+Z122 !s107 bel_fft_def.v|../bel_fft_core.v|
+Z123 !s90 -reportprogress|300|../bel_fft_core.v|
+!i10b 1
+!s85 0
+!s101 -O0
+vbelfft
+Z124 INkFYcSU=f2GQZ;LWHczme1
+Z125 Vk`3D=bnT>n:;A5i>;jliY0
+R3
+R4
+Z126 8../belfft.v
+Z127 F../belfft.v
+L0 47
+R7
+r1
+31
+o-O0
+Z128 !s100 l8BREQOKTKk4[cFRZ52ZP2
+Z129 !s108 1432941831.231000
+Z130 !s107 bel_fft_def.v|../belfft.v|
+Z131 !s90 -reportprogress|300|../belfft.v|
+!i10b 1
+!s85 0
+!s101 -O0
+vbelfft_twiddle_rom0
+Z132 I;Wi3428Rz2`UDYVWFC;Ez1
+Z133 VJ`oYRZ5L`6^ERJXc[DgCN2
+R3
+R4
+Z134 8../belfft_twiddle_rom0.v
+Z135 F../belfft_twiddle_rom0.v
+L0 45
+R7
+r1
+31
+o-O0
+Z136 !s100 n_mL5P^MKzH;Gh=la4z7o3
+Z137 !s108 1432941830.605000
+Z138 !s107 ../belfft_twiddle_rom0.v|
+Z139 !s90 -reportprogress|300|../belfft_twiddle_rom0.v|
+!i10b 1
+!s85 0
+!s101 -O0
+vbelfft_twiddle_roms
+Z140 I^j=2<Vl7^M:CBXoENnhIY1
+Z141 VYY1=__XMP1d7<JJm`7T[a2
+R3
+R4
+Z142 8../belfft_twiddle_roms.v
+Z143 F../belfft_twiddle_roms.v
+L0 48
+R7
+r1
+31
+o-O0
+Z144 !s100 U<z^eiQOLMCz5NUOdmG@D1
+Z145 !s108 1432941830.911000
+Z146 !s107 bel_fft_def.v|../belfft_twiddle_roms.v|
+Z147 !s90 -reportprogress|300|../belfft_twiddle_roms.v|
+!i10b 1
+!s85 0
+!s101 -O0
+vtestbench_64
+!i10b 1
+!s100 zlm=:DEgi_?ORc8=4[R1<3
+I=alz5f1@g27PzAQff<hLA2
+VP^[?RfG4WJAXF^SbzFn=E1
+R3
+R4
+8testbench_64.v
+Ftestbench_64.v
+L0 48
+R7
+r1
+!s85 0
+31
+!s108 1432941831.816000
+!s107 bel_fft_def.v|testbench_64.v|
+!s90 -reportprogress|300|testbench_64.v|
+!s101 -O0
+o-O0

@@ -1,0 +1,15 @@
+PLL_Name	enet_pll:pll_inst|altpll:altpll_component|enet_pll_altpll:auto_generated|pll1
+PLLJITTER	35
+PLLSPEmax	84
+PLLSPEmin	-53
+
+PLL_Name	nios_system:NiosII|nios_system_External_Clocks:external_clocks|altpll:DE_Clock_Generator_Audio|altpll_aii2:auto_generated|pll1
+PLLJITTER	45
+PLLSPEmax	84
+PLLSPEmin	-53
+
+PLL_Name	nios_system:NiosII|nios_system_External_Clocks:external_clocks|altpll:DE_Clock_Generator_System|altpll_kji2:auto_generated|pll1
+PLLJITTER	35
+PLLSPEmax	84
+PLLSPEmin	-53
+
