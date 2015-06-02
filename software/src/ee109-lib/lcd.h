@@ -34,6 +34,7 @@ void lcd_swap_buffers(void);
 
 /* LCD drawing functions */
 void lcd_draw_rectangle(int x, int y, int width, int height, short color);
+void lcd_draw_rectangle_back(int x, int y, int width, int height, short color);
 
 /* LCD character buffer */
 void lcd_write(int x, int y, char *text);

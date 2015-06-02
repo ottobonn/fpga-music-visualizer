@@ -1307,6 +1307,12 @@ set_instance_assignment -name IO_MAXIMUM_TOGGLE_RATE "0 MHz" -to HEX3[1]
 set_instance_assignment -name IO_MAXIMUM_TOGGLE_RATE "0 MHz" -to KEY
 set_instance_assignment -name IO_MAXIMUM_TOGGLE_RATE "0 MHz" -to SW
 set_instance_assignment -name TSU_REQUIREMENT "10 ns" -from * -to *
+set_global_assignment -name VERILOG_FILE tlda/LDA_circuit.v
+set_global_assignment -name VERILOG_FILE tlda/dffre.v
+set_global_assignment -name VERILOG_FILE tlda/TLDA_slave_interface.v
+set_global_assignment -name VERILOG_FILE tlda/TLDA_peripheral.v
+set_global_assignment -name VERILOG_FILE tlda/TLDA_master_interface.v
+set_global_assignment -name VERILOG_FILE tlda/TLDA_circuit.v
 set_global_assignment -name QIP_FILE nios_system/nios_system/synthesis/nios_system.qip
 set_global_assignment -name SDC_FILE ee109_media_computer.sdc
 set_global_assignment -name VERILOG_FILE ee109_media_computer.v

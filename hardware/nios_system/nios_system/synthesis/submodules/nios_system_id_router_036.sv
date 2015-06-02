@@ -50,9 +50,9 @@ module nios_system_id_router_036_default_decode
                DEFAULT_DESTID = 0 
    )
   (output [100 - 95 : 0] default_destination_id,
-   output [40-1 : 0] default_wr_channel,
-   output [40-1 : 0] default_rd_channel,
-   output [40-1 : 0] default_src_channel
+   output [41-1 : 0] default_wr_channel,
+   output [41-1 : 0] default_rd_channel,
+   output [41-1 : 0] default_src_channel
   );
 
   assign default_destination_id = 
@@ -63,7 +63,7 @@ module nios_system_id_router_036_default_decode
       assign default_src_channel = '0;
     end
     else begin
-      assign default_src_channel = 40'b1 << DEFAULT_CHANNEL;
+      assign default_src_channel = 41'b1 << DEFAULT_CHANNEL;
     end
   end
   endgenerate
@@ -74,8 +74,8 @@ module nios_system_id_router_036_default_decode
       assign default_rd_channel = '0;
     end
     else begin
-      assign default_wr_channel = 40'b1 << DEFAULT_WR_CHANNEL;
-      assign default_rd_channel = 40'b1 << DEFAULT_RD_CHANNEL;
+      assign default_wr_channel = 41'b1 << DEFAULT_WR_CHANNEL;
+      assign default_rd_channel = 41'b1 << DEFAULT_RD_CHANNEL;
     end
   end
   endgenerate
@@ -105,7 +105,7 @@ module nios_system_id_router_036
     // -------------------
     output                          src_valid,
     output reg [111-1    : 0] src_data,
-    output reg [40-1 : 0] src_channel,
+    output reg [41-1 : 0] src_channel,
     output                          src_startofpacket,
     output                          src_endofpacket,
     input                           src_ready
@@ -121,7 +121,7 @@ module nios_system_id_router_036
     localparam PKT_PROTECTION_H = 104;
     localparam PKT_PROTECTION_L = 102;
     localparam ST_DATA_W = 111;
-    localparam ST_CHANNEL_W = 40;
+    localparam ST_CHANNEL_W = 41;
     localparam DECODER_TYPE = 1;
 
     localparam PKT_TRANS_WRITE = 70;
@@ -161,7 +161,7 @@ module nios_system_id_router_036
     assign src_endofpacket   = sink_endofpacket;
 
     wire [PKT_DEST_ID_W-1:0] default_destid;
-    wire [40-1 : 0] default_src_channel;
+    wire [41-1 : 0] default_src_channel;
 
 
 
@@ -187,23 +187,23 @@ module nios_system_id_router_036
 
 
         if (destid == 0 ) begin
-            src_channel = 40'b00001;
-        end
-
-        if (destid == 7 ) begin
-            src_channel = 40'b00010;
+            src_channel = 41'b00001;
         end
 
         if (destid == 8 ) begin
-            src_channel = 40'b00100;
+            src_channel = 41'b00010;
         end
 
-        if (destid == 10 ) begin
-            src_channel = 40'b01000;
+        if (destid == 9 ) begin
+            src_channel = 41'b00100;
         end
 
         if (destid == 11 ) begin
-            src_channel = 40'b10000;
+            src_channel = 41'b01000;
+        end
+
+        if (destid == 12 ) begin
+            src_channel = 41'b10000;
         end
 
 

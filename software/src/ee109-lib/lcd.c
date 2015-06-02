@@ -81,6 +81,21 @@ void lcd_write(int x, int y, char * text)
 void lcd_draw_rectangle(int x, int y, int width, int height, short color)
 {
   int i, j, offset;
+  volatile short *pixel_buffer = (short *) (*front_buff_reg);
+
+  for(i = x; i <= (x + width - 1); i++)
+  {
+    for(j = y; j <= (y + height -1); j++)
+    {
+      offset = (j << 9) + i;
+      *(pixel_buffer + offset) = color;
+    }
+  }
+}
+
+void lcd_draw_rectangle_back(int x, int y, int width, int height, short color)
+{
+  int i, j, offset;
   volatile short *pixel_buffer = (short *) (*back_buff_reg);
 
   for(i = x; i <= (x + width - 1); i++)

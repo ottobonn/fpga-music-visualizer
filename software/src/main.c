@@ -5,6 +5,7 @@
 #include <stddef.h>
 #include <stdint.h>
 #include <string.h>
+#include <math.h>
 
 /* Altera. */
 #include "system.h"
@@ -29,7 +30,10 @@
 #include "belfft/bel_fft.h"
 #include "belfft/kiss_fft.h"
 
+#include "tlda/tlda.h"
 
+#define LCD_FRONT_BUFFER (SRAM_BASE)
+#define LCD_BACK_BUFFER  (SRAM_BASE + 0x80000)
 
 /********************************
  ****  GLOBALS DECLARATIONS  ****
@@ -137,7 +141,8 @@ static void configure_lcd ();
 static void configure_interrupts ();
 static int configure_fft ();
 
-float map (float value, float d0, float d1, float r0, float r1);
+float mapf (float value, float d0, float d1, float r0, float r1);
+double mapd (double value, double d0, double d1, double r0, double r1);
 
 /********************************
  ****  FUNCTION DEFINITIONS  ****
@@ -184,10 +189,9 @@ static void configure_interrupts ()
 
 static void configure_lcd ()
 {
-  lcd_set_front_buffer (LCD_DEFAULT_FRONT_BUFF_BASE);
-  lcd_set_back_buffer (LCD_DEFAULT_BACK_BUFF_BASE);
+  lcd_set_front_buffer (LCD_FRONT_BUFFER);
+  //lcd_set_back_buffer (LCD_BACK_BUFFER);
   lcd_enable_dma (true);
-  lcd_draw_rectangle (0, 0, LCD_RES_X, LCD_RES_Y, BLACK);
 }
 
 static int configure_fft ()
@@ -238,9 +242,9 @@ int fft ()
   kiss_fft (fft_cfg, samples_for_fft, fout);
   for (i = 0; i < FFT_LEN / 2; i++)
     {
-      float power = sqrt(fout[i].r*fout[i].r + fout[i].i*fout[i].i);
+      double power = sqrt(fout[i].r*fout[i].r + fout[i].i*fout[i].i);
 
-      float scaled_power = map(power, 0, 100000, 0, LCD_RES_Y);
+      float scaled_power = mapd(power, 0, 100000, 0, LCD_RES_Y);
       power_history[i][current_power_history_index] = scaled_power;
       // Blend in historical data for smoothing
       average_power_spectrum[i] = 0;
@@ -255,23 +259,45 @@ int fft ()
 void draw_fft ()
 {
   lcd_draw_rectangle (0, 0, LCD_RES_X, LCD_RES_Y, BLACK);
-  const size_t bar_width = 5;
+  const size_t bar_width = 4;
 
   int i;
   for (i = 0; i < FFT_LEN / 2; i++)
     {
       int value = (int) average_power_spectrum[i];
-      lcd_draw_rectangle (bar_width * i, LCD_RES_Y - value, bar_width, value, rand () % 0x10000);
+      // lcd_draw_rectangle (bar_width * i, LCD_RES_Y - value, bar_width, value, rand () % 0x10000);
+      tlda_draw (bar_width * i + bar_width / 2,
+                LCD_RES_Y - value,
+                bar_width * i + bar_width / 2,
+                LCD_RES_Y,
+                rand () % 0x10000,
+                bar_width);
+      // tlda_draw (0,
+      //           0,
+      //           LCD_RES_X,
+      //           LCD_RES_Y,
+      //           WHITE,
+      //           10);
     }
 
-  lcd_swap_buffers ();
+  //lcd_swap_buffers ();
 }
 
-float map (float value, float d0, float d1, float r0, float r1)
+float mapf (float value, float d0, float d1, float r0, float r1)
 {
   if (value > d1) return r1;
   if (value < d0) return r0;
   float new = value * (r1 - r0) / (d1 - d0);
+  if (new > r1) return r1;
+  if (new < r0) return r0;
+  return new;
+}
+
+double mapd (double value, double d0, double d1, double r0, double r1)
+{
+  if (value > d1) return r1;
+  if (value < d0) return r0;
+  double new = value * (r1 - r0) / (d1 - d0);
   if (new > r1) return r1;
   if (new < r0) return r0;
   return new;
@@ -315,4 +341,27 @@ int test_fft()
 static void fft_isr (void *context, unsigned int id)
 {
   green_leds_set (current_power_history_index);
+}
+
+/* Cool strobe feature that brought some much needed joy during long nights in the lab */
+void clear_strobe_flash (void)
+{
+	int coin;
+	int x, y;
+	int i;
+	for (i = 0; i < 5000; i++)
+	{
+		coin = rand() % 2;
+		if (coin)
+			{
+				x = rand() % 2 ? 0 : LCD_RES_X;
+				y = rand() % (LCD_RES_Y + 1);
+			}
+		else
+			{
+				x = rand() % (LCD_RES_X + 1);
+				y = rand() % 2 ? 0 : LCD_RES_Y;
+			}
+		tlda_draw (LCD_RES_X / 2, LCD_RES_Y / 2, x, y, 0, 1);
+	}
 }

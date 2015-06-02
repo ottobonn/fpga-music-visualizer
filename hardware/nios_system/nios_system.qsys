@@ -516,6 +516,14 @@
          type = "boolean";
       }
    }
+   element TLDA_peripheral_0
+   {
+      datum _sortIndex
+      {
+         value = "65";
+         type = "int";
+      }
+   }
    element USB
    {
       datum _sortIndex
@@ -771,6 +779,14 @@
          type = "String";
       }
    }
+   element VGA_Char_Buffer.avalon_char_buffer_slave
+   {
+      datum _lockedAddress
+      {
+         value = "1";
+         type = "boolean";
+      }
+   }
    element LCD_Char_Buffer.avalon_char_buffer_slave
    {
       datum _lockedAddress
@@ -782,14 +798,6 @@
       {
          value = "151003136";
          type = "String";
-      }
-   }
-   element VGA_Char_Buffer.avalon_char_buffer_slave
-   {
-      datum _lockedAddress
-      {
-         value = "1";
-         type = "boolean";
       }
    }
    element VGA_Char_Buffer.avalon_char_control_slave
@@ -818,19 +826,6 @@
          type = "String";
       }
    }
-   element Camera_DMA_Controller.avalon_dma_control_slave
-   {
-      datum _lockedAddress
-      {
-         value = "1";
-         type = "boolean";
-      }
-      datum baseAddress
-      {
-         value = "268447872";
-         type = "String";
-      }
-   }
    element Video_In_DMA_Controller.avalon_dma_control_slave
    {
       datum _lockedAddress
@@ -844,19 +839,6 @@
          type = "String";
       }
    }
-   element LCD_DMA_Controller.avalon_dma_control_slave
-   {
-      datum _lockedAddress
-      {
-         value = "1";
-         type = "boolean";
-      }
-      datum baseAddress
-      {
-         value = "268447888";
-         type = "String";
-      }
-   }
    element VGA_DMA_Controller.avalon_dma_control_slave
    {
       datum _lockedAddress
@@ -867,6 +849,32 @@
       datum baseAddress
       {
          value = "268447776";
+         type = "String";
+      }
+   }
+   element Camera_DMA_Controller.avalon_dma_control_slave
+   {
+      datum _lockedAddress
+      {
+         value = "1";
+         type = "boolean";
+      }
+      datum baseAddress
+      {
+         value = "268447872";
+         type = "String";
+      }
+   }
+   element LCD_DMA_Controller.avalon_dma_control_slave
+   {
+      datum _lockedAddress
+      {
+         value = "1";
+         type = "boolean";
+      }
+      datum baseAddress
+      {
+         value = "268447888";
          type = "String";
       }
    }
@@ -909,7 +917,7 @@
          type = "long";
       }
    }
-   element Slider_Switches.avalon_parallel_port_slave
+   element Pushbuttons.avalon_parallel_port_slave
    {
       datum _lockedAddress
       {
@@ -918,7 +926,20 @@
       }
       datum baseAddress
       {
-         value = "268435520";
+         value = "268435536";
+         type = "long";
+      }
+   }
+   element HEX7_HEX4.avalon_parallel_port_slave
+   {
+      datum _lockedAddress
+      {
+         value = "1";
+         type = "boolean";
+      }
+      datum baseAddress
+      {
+         value = "268435504";
          type = "long";
       }
    }
@@ -932,6 +953,32 @@
       datum baseAddress
       {
          value = "268435488";
+         type = "long";
+      }
+   }
+   element Red_LEDs.avalon_parallel_port_slave
+   {
+      datum _lockedAddress
+      {
+         value = "1";
+         type = "boolean";
+      }
+      datum baseAddress
+      {
+         value = "268435456";
+         type = "long";
+      }
+   }
+   element Slider_Switches.avalon_parallel_port_slave
+   {
+      datum _lockedAddress
+      {
+         value = "1";
+         type = "boolean";
+      }
+      datum baseAddress
+      {
+         value = "268435520";
          type = "long";
       }
    }
@@ -958,45 +1005,6 @@
       datum baseAddress
       {
          value = "268435472";
-         type = "long";
-      }
-   }
-   element HEX7_HEX4.avalon_parallel_port_slave
-   {
-      datum _lockedAddress
-      {
-         value = "1";
-         type = "boolean";
-      }
-      datum baseAddress
-      {
-         value = "268435504";
-         type = "long";
-      }
-   }
-   element Red_LEDs.avalon_parallel_port_slave
-   {
-      datum _lockedAddress
-      {
-         value = "1";
-         type = "boolean";
-      }
-      datum baseAddress
-      {
-         value = "268435456";
-         type = "long";
-      }
-   }
-   element Pushbuttons.avalon_parallel_port_slave
-   {
-      datum _lockedAddress
-      {
-         value = "1";
-         type = "boolean";
-      }
-      datum baseAddress
-      {
-         value = "268435536";
          type = "long";
       }
    }
@@ -1081,14 +1089,6 @@
          type = "int";
       }
    }
-   element clk.clk
-   {
-      datum clock_domain
-      {
-         value = "clk";
-         type = "String";
-      }
-   }
    element clk
    {
       datum _sortIndex
@@ -1100,6 +1100,14 @@
       {
          value = "0";
          type = "boolean";
+      }
+   }
+   element clk.clk
+   {
+      datum clock_domain
+      {
+         value = "clk";
+         type = "String";
       }
    }
    element clk_27
@@ -1143,14 +1151,6 @@
    }
    element belfft_0.control_slave
    {
-      datum baseAddress
-      {
-         value = "136327168";
-         type = "String";
-      }
-   }
-   element sgdma_rx.csr
-   {
       datum _lockedAddress
       {
          value = "1";
@@ -1158,7 +1158,7 @@
       }
       datum baseAddress
       {
-         value = "136324160";
+         value = "136327168";
          type = "String";
       }
    }
@@ -1172,6 +1172,19 @@
       datum baseAddress
       {
          value = "136324096";
+         type = "String";
+      }
+   }
+   element sgdma_rx.csr
+   {
+      datum _lockedAddress
+      {
+         value = "1";
+         type = "boolean";
+      }
+      datum baseAddress
+      {
+         value = "136324160";
          type = "String";
       }
    }
@@ -1266,7 +1279,7 @@
          type = "boolean";
       }
    }
-   element Interval_Timer.s1
+   element packet_memory.s1
    {
       datum _lockedAddress
       {
@@ -1275,8 +1288,8 @@
       }
       datum baseAddress
       {
-         value = "268443648";
-         type = "long";
+         value = "136318976";
+         type = "String";
       }
    }
    element SDRAM.s1
@@ -1292,19 +1305,6 @@
          type = "long";
       }
    }
-   element packet_memory.s1
-   {
-      datum _lockedAddress
-      {
-         value = "1";
-         type = "boolean";
-      }
-      datum baseAddress
-      {
-         value = "136318976";
-         type = "String";
-      }
-   }
    element descriptor_memory.s1
    {
       datum _lockedAddress
@@ -1316,6 +1316,19 @@
       {
          value = "136314880";
          type = "String";
+      }
+   }
+   element Interval_Timer.s1
+   {
+      datum _lockedAddress
+      {
+         value = "1";
+         type = "boolean";
+      }
+      datum baseAddress
+      {
+         value = "268443648";
+         type = "long";
       }
    }
    element External_Clocks.sdram_clk
@@ -1352,6 +1365,14 @@
          type = "boolean";
       }
    }
+   element TLDA_peripheral_0.slave
+   {
+      datum baseAddress
+      {
+         value = "136324224";
+         type = "String";
+      }
+   }
    element sys_clk
    {
       datum _sortIndex
@@ -1386,14 +1407,6 @@
          type = "boolean";
       }
    }
-   element External_Clocks.vga_clk
-   {
-      datum _clockDomain
-      {
-         value = "vga_clk";
-         type = "String";
-      }
-   }
    element vga_clk
    {
       datum _sortIndex
@@ -1405,6 +1418,14 @@
       {
          value = "0";
          type = "boolean";
+      }
+   }
+   element External_Clocks.vga_clk
+   {
+      datum _clockDomain
+      {
+         value = "vga_clk";
+         type = "String";
       }
    }
 }
@@ -1422,7 +1443,7 @@
  <parameter name="projectName" value="" />
  <parameter name="sopcBorderPoints" value="false" />
  <parameter name="systemHash" value="1" />
- <parameter name="timeStamp" value="1433206233688" />
+ <parameter name="timeStamp" value="1433223655228" />
  <parameter name="useTestBenchNamingPattern" value="false" />
  <instanceScript></instanceScript>
  <interface
@@ -2131,7 +2152,7 @@
   <parameter name="tightlyCoupledInstructionMaster2AddrWidth" value="1" />
   <parameter name="tightlyCoupledInstructionMaster3AddrWidth" value="1" />
   <parameter name="instSlaveMapParam"><![CDATA[<address-map><slave name='SDRAM.s1' start='0x0' end='0x8000000' /><slave name='CPU.jtag_debug_module' start='0xA000000' end='0xA000800' /><slave name='Flash.flash_data' start='0xC000000' end='0xC800000' /></address-map>]]></parameter>
-  <parameter name="dataSlaveMapParam"><![CDATA[<address-map><slave name='SDRAM.s1' start='0x0' end='0x8000000' /><slave name='SRAM.avalon_sram_slave' start='0x8000000' end='0x8200000' /><slave name='descriptor_memory.s1' start='0x8200000' end='0x8201000' /><slave name='packet_memory.s1' start='0x8201000' end='0x8202000' /><slave name='enet.control_port' start='0x8202000' end='0x8202400' /><slave name='sgdma_tx.csr' start='0x8202400' end='0x8202440' /><slave name='sgdma_rx.csr' start='0x8202440' end='0x8202480' /><slave name='belfft_0.control_slave' start='0x8203000' end='0x8204000' /><slave name='VGA_Char_Buffer.avalon_char_buffer_slave' start='0x9000000' end='0x9002000' /><slave name='LCD_Char_Buffer.avalon_char_buffer_slave' start='0x9002000' end='0x9002800' /><slave name='CPU.jtag_debug_module' start='0xA000000' end='0xA000800' /><slave name='SD_Card.avalon_sdcard_slave' start='0xB000000' end='0xB000400' /><slave name='Flash.flash_erase_control' start='0xBFF0000' end='0xBFF0004' /><slave name='Flash.flash_data' start='0xC000000' end='0xC800000' /><slave name='Red_LEDs.avalon_parallel_port_slave' start='0x10000000' end='0x10000010' /><slave name='Green_LEDs.avalon_parallel_port_slave' start='0x10000010' end='0x10000020' /><slave name='HEX3_HEX0.avalon_parallel_port_slave' start='0x10000020' end='0x10000030' /><slave name='HEX7_HEX4.avalon_parallel_port_slave' start='0x10000030' end='0x10000040' /><slave name='Slider_Switches.avalon_parallel_port_slave' start='0x10000040' end='0x10000050' /><slave name='Pushbuttons.avalon_parallel_port_slave' start='0x10000050' end='0x10000060' /><slave name='Expansion_JP5.avalon_parallel_port_slave' start='0x10000060' end='0x10000070' /><slave name='PS2_Port.avalon_ps2_slave' start='0x10000100' end='0x10000108' /><slave name='PS2_Port_Dual.avalon_ps2_slave' start='0x10000108' end='0x10000110' /><slave name='USB.avalon_usb_slave' start='0x10000110' end='0x10000120' /><slave name='JTAG_UART.avalon_jtag_slave' start='0x10001000' end='0x10001008' /><slave name='Serial_Port.avalon_rs232_slave' start='0x10001010' end='0x10001018' /><slave name='IrDA.avalon_irda_slave' start='0x10001020' end='0x10001028' /><slave name='Interval_Timer.s1' start='0x10002000' end='0x10002020' /><slave name='sysid.control_slave' start='0x10002020' end='0x10002028' /><slave name='OnBoard_AV.avalon_av_config_slave' start='0x10003000' end='0x10003010' /><slave name='VGA_DMA_Controller.avalon_dma_control_slave' start='0x10003020' end='0x10003030' /><slave name='VGA_Char_Buffer.avalon_char_control_slave' start='0x10003030' end='0x10003038' /><slave name='Audio.avalon_audio_slave' start='0x10003040' end='0x10003050' /><slave name='Char_LCD_16x2.avalon_lcd_slave' start='0x10003050' end='0x10003052' /><slave name='Video_In_DMA_Controller.avalon_dma_control_slave' start='0x10003060' end='0x10003070' /><slave name='Camera_Config.avalon_av_config_slave' start='0x10003070' end='0x10003080' /><slave name='Camera_DMA_Controller.avalon_dma_control_slave' start='0x10003080' end='0x10003090' /><slave name='LCD_DMA_Controller.avalon_dma_control_slave' start='0x10003090' end='0x100030A0' /><slave name='LCD_Char_Buffer.avalon_char_control_slave' start='0x100030A0' end='0x100030A8' /><slave name='Accelerometer.avalon_accelerometer_spi_mode_slave' start='0x10004020' end='0x10004022' /></address-map>]]></parameter>
+  <parameter name="dataSlaveMapParam"><![CDATA[<address-map><slave name='SDRAM.s1' start='0x0' end='0x8000000' /><slave name='SRAM.avalon_sram_slave' start='0x8000000' end='0x8200000' /><slave name='descriptor_memory.s1' start='0x8200000' end='0x8201000' /><slave name='packet_memory.s1' start='0x8201000' end='0x8202000' /><slave name='enet.control_port' start='0x8202000' end='0x8202400' /><slave name='sgdma_tx.csr' start='0x8202400' end='0x8202440' /><slave name='sgdma_rx.csr' start='0x8202440' end='0x8202480' /><slave name='TLDA_peripheral_0.slave' start='0x8202480' end='0x82024A0' /><slave name='belfft_0.control_slave' start='0x8203000' end='0x8204000' /><slave name='VGA_Char_Buffer.avalon_char_buffer_slave' start='0x9000000' end='0x9002000' /><slave name='LCD_Char_Buffer.avalon_char_buffer_slave' start='0x9002000' end='0x9002800' /><slave name='CPU.jtag_debug_module' start='0xA000000' end='0xA000800' /><slave name='SD_Card.avalon_sdcard_slave' start='0xB000000' end='0xB000400' /><slave name='Flash.flash_erase_control' start='0xBFF0000' end='0xBFF0004' /><slave name='Flash.flash_data' start='0xC000000' end='0xC800000' /><slave name='Red_LEDs.avalon_parallel_port_slave' start='0x10000000' end='0x10000010' /><slave name='Green_LEDs.avalon_parallel_port_slave' start='0x10000010' end='0x10000020' /><slave name='HEX3_HEX0.avalon_parallel_port_slave' start='0x10000020' end='0x10000030' /><slave name='HEX7_HEX4.avalon_parallel_port_slave' start='0x10000030' end='0x10000040' /><slave name='Slider_Switches.avalon_parallel_port_slave' start='0x10000040' end='0x10000050' /><slave name='Pushbuttons.avalon_parallel_port_slave' start='0x10000050' end='0x10000060' /><slave name='Expansion_JP5.avalon_parallel_port_slave' start='0x10000060' end='0x10000070' /><slave name='PS2_Port.avalon_ps2_slave' start='0x10000100' end='0x10000108' /><slave name='PS2_Port_Dual.avalon_ps2_slave' start='0x10000108' end='0x10000110' /><slave name='USB.avalon_usb_slave' start='0x10000110' end='0x10000120' /><slave name='JTAG_UART.avalon_jtag_slave' start='0x10001000' end='0x10001008' /><slave name='Serial_Port.avalon_rs232_slave' start='0x10001010' end='0x10001018' /><slave name='IrDA.avalon_irda_slave' start='0x10001020' end='0x10001028' /><slave name='Interval_Timer.s1' start='0x10002000' end='0x10002020' /><slave name='sysid.control_slave' start='0x10002020' end='0x10002028' /><slave name='OnBoard_AV.avalon_av_config_slave' start='0x10003000' end='0x10003010' /><slave name='VGA_DMA_Controller.avalon_dma_control_slave' start='0x10003020' end='0x10003030' /><slave name='VGA_Char_Buffer.avalon_char_control_slave' start='0x10003030' end='0x10003038' /><slave name='Audio.avalon_audio_slave' start='0x10003040' end='0x10003050' /><slave name='Char_LCD_16x2.avalon_lcd_slave' start='0x10003050' end='0x10003052' /><slave name='Video_In_DMA_Controller.avalon_dma_control_slave' start='0x10003060' end='0x10003070' /><slave name='Camera_Config.avalon_av_config_slave' start='0x10003070' end='0x10003080' /><slave name='Camera_DMA_Controller.avalon_dma_control_slave' start='0x10003080' end='0x10003090' /><slave name='LCD_DMA_Controller.avalon_dma_control_slave' start='0x10003090' end='0x100030A0' /><slave name='LCD_Char_Buffer.avalon_char_control_slave' start='0x100030A0' end='0x100030A8' /><slave name='Accelerometer.avalon_accelerometer_spi_mode_slave' start='0x10004020' end='0x10004022' /></address-map>]]></parameter>
   <parameter name="clockFrequency" value="50000000" />
   <parameter name="deviceFamilyName" value="Cyclone IV E" />
   <parameter name="internalIrqMaskSystemInfo" value="172031" />
@@ -2664,6 +2685,13 @@
  </module>
  <module kind="belfft" version="1.0" enabled="1" name="belfft_0">
   <parameter name="AUTO_CLOCK_SINK_CLOCK_RATE" value="50000000" />
+ </module>
+ <module
+   kind="TLDA_peripheral"
+   version="1.0"
+   enabled="1"
+   name="TLDA_peripheral_0">
+  <parameter name="AUTO_CLOCKRESET_CLOCK_RATE" value="50000000" />
  </module>
  <connection
    kind="avalon"
@@ -4564,6 +4592,43 @@
    start="CPU.d_irq"
    end="belfft_0.interrupt_sender">
   <parameter name="irqNumber" value="12" />
+ </connection>
+ <connection
+   kind="clock"
+   version="13.0"
+   start="External_Clocks.sys_clk"
+   end="TLDA_peripheral_0.clockreset" />
+ <connection
+   kind="reset"
+   version="13.0"
+   start="CPU.jtag_debug_module_reset"
+   end="TLDA_peripheral_0.clockreset_reset" />
+ <connection
+   kind="avalon"
+   version="13.0"
+   start="CPU.data_master"
+   end="TLDA_peripheral_0.slave">
+  <parameter name="arbitrationPriority" value="1" />
+  <parameter name="baseAddress" value="0x08202480" />
+  <parameter name="defaultConnection" value="false" />
+ </connection>
+ <connection
+   kind="avalon"
+   version="13.0"
+   start="TLDA_peripheral_0.master"
+   end="SRAM.avalon_sram_slave">
+  <parameter name="arbitrationPriority" value="1" />
+  <parameter name="baseAddress" value="0x08000000" />
+  <parameter name="defaultConnection" value="false" />
+ </connection>
+ <connection
+   kind="avalon"
+   version="13.0"
+   start="TLDA_peripheral_0.master"
+   end="SDRAM.s1">
+  <parameter name="arbitrationPriority" value="1" />
+  <parameter name="baseAddress" value="0x0000" />
+  <parameter name="defaultConnection" value="false" />
  </connection>
  <interconnectRequirement for="$system" name="qsys_mm.clockCrossingAdapter" value="HANDSHAKE" />
  <interconnectRequirement for="$system" name="qsys_mm.maxAdditionalLatency" value="0" />
