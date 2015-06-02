@@ -154,7 +154,7 @@ void kiss_fft_stride (const kiss_fft_cfg cfg, kiss_fft_cpx *fin, kiss_fft_cpx *f
    * Since we poll the status register we do not enable the interrupt
    */
 
-  /* cfg->belFftPtr->Control.Inten = 1; */
+  // cfg->belFftPtr->Control.Inten = 1;
 
   /*
    * Start the FFT
@@ -167,9 +167,7 @@ void kiss_fft_stride (const kiss_fft_cfg cfg, kiss_fft_cpx *fin, kiss_fft_cpx *f
    * like generation an interrupt are possible.
    */
 
-  while (! belFftPtr->Status.Int) {
-  }
-
+  while (! belFftPtr->Status.Int);
 }
 
 

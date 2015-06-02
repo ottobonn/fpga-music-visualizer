@@ -89,22 +89,22 @@ module belfft (
 
     output int_o;
 
-    wire [6 - 1:0] tw_adr;
+    wire [7 - 1:0] tw_adr;
     wire tw_rd;
-    wire [16 - 1:0] tw_re;
-    wire [16 - 1:0] tw_im;
+    wire [32 - 1:0] tw_re;
+    wire [32 - 1:0] tw_im;
     wire [1 - 1:0] tw_cfg_sel;
 
     bel_fft_avl  #(
-            .word_width (16),
+            .word_width (32),
             .config_num (1),
-            .stage_num (3),
-            .twiddle_rom_max_awidth (6),
-            .fft_size (64),
+            .stage_num (4),
+            .twiddle_rom_max_awidth (7),
+            .fft_size (128),
             .fft_size1 (0),
             .fft_size2 (0),
             .fft_size3 (0),
-            .has_butterfly2 (0))
+            .has_butterfly2 (1))
             u_core (
             .clk_i (clk_i),
             .rst_i (rst_i),
@@ -135,11 +135,11 @@ module belfft (
             .int_o (int_o));
 
 
-    belfft_twiddle_roms #(.word_width (16),
+    belfft_twiddle_roms #(.word_width (32),
             .config_num (1),
-            .max_awidth (6),
-            .size (64),
-            .awidth (6),
+            .max_awidth (7),
+            .size (128),
+            .awidth (7),
             .file_name ("belfft_twiddle_rom0.dat"),
             .size2 (0),
             .awidth2 (0),

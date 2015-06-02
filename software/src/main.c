@@ -29,9 +29,7 @@
 #include "belfft/bel_fft.h"
 #include "belfft/kiss_fft.h"
 
-// Hardware FFT macros
-#define FIXED_POINT 16
-#define FFT_LEN 64
+
 
 /********************************
  ****  GLOBALS DECLARATIONS  ****
@@ -40,16 +38,21 @@
 // From system_globals.c
 extern volatile int left_buffer[AUDIO_BUF_SIZE];
 extern volatile int right_buffer[AUDIO_BUF_SIZE];
+extern volatile kiss_fft_cpx samples_for_fft[FFT_LEN];
+extern volatile bool samples_for_fft_requested;
 
 // For hardware FFT
 kiss_fft_cfg fft_cfg;
-kiss_fft_cpx fin[FFT_LEN];
 volatile kiss_fft_cpx fout[FFT_LEN];
+static void fft_isr (void *context, unsigned int id);
+volatile bool audio_ready = false;
 
-#define AVERAGING_LENGTH 4
+// FFT averaging and power spectrum
+#define AVERAGING_LENGTH 2
 size_t current_power_history_index = 0;
 float power_history[AVERAGING_LENGTH][FFT_LEN/2];
-float power_spectrum[FFT_LEN/2];
+float average_power_spectrum[FFT_LEN/2];
+
 
 int values[FFT_LEN] = {98,
               195,
@@ -127,12 +130,13 @@ int test_fft();
 void draw_fft ();
 static void fft_isr (void *context, unsigned int id);
 int fft ();
+void signal_audio_ready ();
 
 /* Configuration Functions */
 static void configure_lcd();
 static void configure_interrupts();
 
-int map (int value, int d0, int d1, int r0, int r1);
+float map (float value, float d0, float d1, float r0, float r1);
 
 /********************************
  ****  FUNCTION DEFINITIONS  ****
@@ -172,7 +176,7 @@ static void initialize (void)
   }
   size_t i;
   for (i = 0; i < FFT_LEN; i++)
-    fin[i].i = 0;
+    samples_for_fft[i].i = 0;
 }
 
 
@@ -188,6 +192,8 @@ static void configure_interrupts ()
 
 static void configure_lcd ()
 {
+  lcd_set_front_buffer (LCD_DEFAULT_FRONT_BUFF_BASE);
+  lcd_set_back_buffer (LCD_DEFAULT_BACK_BUFF_BASE);
   lcd_enable_dma (true);
   lcd_draw_rectangle (0, 0, LCD_RES_X, LCD_RES_Y, BLACK);
 }
@@ -198,10 +204,13 @@ static void configure_lcd ()
  */
 void run (void)
 {
-  while(1)
+  while (true)
     {
+      samples_for_fft_requested = true; // Request audio
+      while (!audio_ready); // Wait for audio
       fft ();
       draw_fft ();
+      audio_ready = false;
     }
 }
 
@@ -209,21 +218,17 @@ int fft ()
 {
   int i, j;
 
-  for (i = 0; i < FFT_LEN; i++)
-    fin[i].r = left_buffer[i] / 10;
-
-  kiss_fft (fft_cfg, fin, fout);
+  kiss_fft (fft_cfg, samples_for_fft, fout);
 
   for (i = 0; i < FFT_LEN / 2; i++)
     {
-      power_spectrum[i] = sqrt(fout[i].r*fout[i].r + fout[i].i*fout[i].i);
-      power_history[current_power_history_index][i] = power_spectrum[i];
+      power_history[current_power_history_index][i] = sqrt(fout[i].r*fout[i].r + fout[i].i*fout[i].i);
 
       // Blend in historical data for smoothing
+      average_power_spectrum[i] = 0;
       for (j = 0; j < AVERAGING_LENGTH; j++)
-        power_spectrum[i] += power_history[j][i];
+        average_power_spectrum[i] += power_history[j][i] / AVERAGING_LENGTH;
 
-      power_spectrum[i] = power_spectrum[i] / AVERAGING_LENGTH;
     }
 
   current_power_history_index = (current_power_history_index + 1) % AVERAGING_LENGTH;
@@ -234,18 +239,28 @@ int fft ()
 void draw_fft ()
 {
   lcd_draw_rectangle (0, 0, LCD_RES_X, LCD_RES_Y, BLACK);
-  const size_t bar_width = 10;
+  const size_t bar_width = 3;
 
   int i;
   for (i = 0; i < FFT_LEN / 2; i++)
     {
-      int value = (int) (power_spectrum[i] / 0x100);
-      lcd_draw_rectangle (bar_width * i, 0, bar_width, value, WHITE);
+      int value = (int) (map(average_power_spectrum[i], 0, 100000, 0, LCD_RES_X));
+      lcd_draw_rectangle (0, bar_width * i, value, bar_width, WHITE);
     }
+
+  lcd_swap_buffers ();
 }
 
-int map (int value, int d0, int d1, int r0, int r1){
+float map (float value, float d0, float d1, float r0, float r1)
+{
+  if (value > d1) return r1;
+  if (value < d0) return r0;
   return value * (r1 - r0) / (d1 - d0);
+}
+
+void signal_audio_ready ()
+{
+  audio_ready = true;
 }
 
 int test_fft()
@@ -271,14 +286,14 @@ int test_fft()
      *  Print out the FFT result.
      */
     for (i = 0; i < FFT_LEN / 2; i++) {
-        power_spectrum[i] = sqrt(fout[i].r*fout[i].r + fout[i].i*fout[i].i);
+      average_power_spectrum[i] = sqrt(fout[i].r*fout[i].r + fout[i].i*fout[i].i);
     }
 
 
     return 0;
 }
 
-void fft_isr (void *context, unsigned int id)
+static void fft_isr (void *context, unsigned int id)
 {
-  printf ("FFT complete!\n");
+  green_leds_set (current_power_history_index);
 }

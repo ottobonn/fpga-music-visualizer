@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////
 //
-// testbench_64.v
+// testbench_128.v
 //
 //
 // This file is part of the "bel_fft" project
@@ -45,13 +45,13 @@
 `include "bel_fft_def.v"
 
 
-module testbench_64;
+module testbench_128;
 
-    parameter input_file_name = "input_data_64.dat";
-    parameter fft_size = 64;
+    parameter input_file_name = "input_data_128.dat";
+    parameter fft_size = 128;
     parameter inverse = 0;
-    parameter word_width = 16;
-    parameter ram_awidth = 6;
+    parameter word_width = 32;
+    parameter ram_awidth = 8;
 
 
     reg clk;
@@ -183,20 +183,25 @@ module testbench_64;
         // foutadr = FFT size * number of 32 bit word for a complex number
         writeRegister (`BEL_FFT_DEST_REG_ADDR, 2 * fft_size * (word_width * 2 / `BEL_FFT_DWIDTH * `BEL_FFT_BCNT));
 
-        // p[0] = 0004, m[0] = 0010
-        writeRegister (`BEL_FFT_FACTORS_REG_ADDR + 0, 32'h0004_0010);
+        // p[0] = 0004, m[0] = 0020
+        writeRegister (`BEL_FFT_FACTORS_REG_ADDR + 0, 32'h0004_0020);
 
         readRegister (`BEL_FFT_FACTORS_REG_ADDR + 0);
 
-        // p[1] = 0004, m[1] = 0004
-        writeRegister (`BEL_FFT_FACTORS_REG_ADDR + 1, 32'h0004_0004);
+        // p[1] = 0004, m[1] = 0008
+        writeRegister (`BEL_FFT_FACTORS_REG_ADDR + 1, 32'h0004_0008);
 
         readRegister (`BEL_FFT_FACTORS_REG_ADDR + 1);
 
-        // p[2] = 0004, m[2] = 0001
-        writeRegister (`BEL_FFT_FACTORS_REG_ADDR + 2, 32'h0004_0001);
+        // p[2] = 0004, m[2] = 0002
+        writeRegister (`BEL_FFT_FACTORS_REG_ADDR + 2, 32'h0004_0002);
 
         readRegister (`BEL_FFT_FACTORS_REG_ADDR + 2);
+
+        // p[3] = 0002, m[3] = 0001
+        writeRegister (`BEL_FFT_FACTORS_REG_ADDR + 3, 32'h0002_0001);
+
+        readRegister (`BEL_FFT_FACTORS_REG_ADDR + 3);
 
         // start + enable interrupt
         writeRegister (`BEL_FFT_CONTROL_REG_ADDR, inverse * 65536 + 257);

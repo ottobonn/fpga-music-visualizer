@@ -1,2 +1,0 @@
-set style data linespoints
-plot 'output_data_re.dat', 'output_data_im.dat'

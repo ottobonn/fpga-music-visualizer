@@ -390,7 +390,7 @@
       }
       datum sopceditor_expanded
       {
-         value = "0";
+         value = "1";
          type = "boolean";
       }
    }
@@ -771,14 +771,6 @@
          type = "String";
       }
    }
-   element VGA_Char_Buffer.avalon_char_buffer_slave
-   {
-      datum _lockedAddress
-      {
-         value = "1";
-         type = "boolean";
-      }
-   }
    element LCD_Char_Buffer.avalon_char_buffer_slave
    {
       datum _lockedAddress
@@ -790,6 +782,27 @@
       {
          value = "151003136";
          type = "String";
+      }
+   }
+   element VGA_Char_Buffer.avalon_char_buffer_slave
+   {
+      datum _lockedAddress
+      {
+         value = "1";
+         type = "boolean";
+      }
+   }
+   element VGA_Char_Buffer.avalon_char_control_slave
+   {
+      datum _lockedAddress
+      {
+         value = "1";
+         type = "boolean";
+      }
+      datum baseAddress
+      {
+         value = "268447792";
+         type = "long";
       }
    }
    element LCD_Char_Buffer.avalon_char_control_slave
@@ -805,7 +818,7 @@
          type = "String";
       }
    }
-   element VGA_Char_Buffer.avalon_char_control_slave
+   element Camera_DMA_Controller.avalon_dma_control_slave
    {
       datum _lockedAddress
       {
@@ -814,8 +827,8 @@
       }
       datum baseAddress
       {
-         value = "268447792";
-         type = "long";
+         value = "268447872";
+         type = "String";
       }
    }
    element Video_In_DMA_Controller.avalon_dma_control_slave
@@ -841,19 +854,6 @@
       datum baseAddress
       {
          value = "268447888";
-         type = "String";
-      }
-   }
-   element Camera_DMA_Controller.avalon_dma_control_slave
-   {
-      datum _lockedAddress
-      {
-         value = "1";
-         type = "boolean";
-      }
-      datum baseAddress
-      {
-         value = "268447872";
          type = "String";
       }
    }
@@ -909,19 +909,6 @@
          type = "long";
       }
    }
-   element Expansion_JP5.avalon_parallel_port_slave
-   {
-      datum _lockedAddress
-      {
-         value = "1";
-         type = "boolean";
-      }
-      datum baseAddress
-      {
-         value = "268435552";
-         type = "long";
-      }
-   }
    element Slider_Switches.avalon_parallel_port_slave
    {
       datum _lockedAddress
@@ -935,19 +922,6 @@
          type = "long";
       }
    }
-   element HEX7_HEX4.avalon_parallel_port_slave
-   {
-      datum _lockedAddress
-      {
-         value = "1";
-         type = "boolean";
-      }
-      datum baseAddress
-      {
-         value = "268435504";
-         type = "long";
-      }
-   }
    element HEX3_HEX0.avalon_parallel_port_slave
    {
       datum _lockedAddress
@@ -958,6 +932,45 @@
       datum baseAddress
       {
          value = "268435488";
+         type = "long";
+      }
+   }
+   element Expansion_JP5.avalon_parallel_port_slave
+   {
+      datum _lockedAddress
+      {
+         value = "1";
+         type = "boolean";
+      }
+      datum baseAddress
+      {
+         value = "268435552";
+         type = "long";
+      }
+   }
+   element Green_LEDs.avalon_parallel_port_slave
+   {
+      datum _lockedAddress
+      {
+         value = "1";
+         type = "boolean";
+      }
+      datum baseAddress
+      {
+         value = "268435472";
+         type = "long";
+      }
+   }
+   element HEX7_HEX4.avalon_parallel_port_slave
+   {
+      datum _lockedAddress
+      {
+         value = "1";
+         type = "boolean";
+      }
+      datum baseAddress
+      {
+         value = "268435504";
          type = "long";
       }
    }
@@ -987,7 +1000,7 @@
          type = "long";
       }
    }
-   element Green_LEDs.avalon_parallel_port_slave
+   element PS2_Port_Dual.avalon_ps2_slave
    {
       datum _lockedAddress
       {
@@ -996,7 +1009,7 @@
       }
       datum baseAddress
       {
-         value = "268435472";
+         value = "268435720";
          type = "long";
       }
    }
@@ -1010,19 +1023,6 @@
       datum baseAddress
       {
          value = "268435712";
-         type = "long";
-      }
-   }
-   element PS2_Port_Dual.avalon_ps2_slave
-   {
-      datum _lockedAddress
-      {
-         value = "1";
-         type = "boolean";
-      }
-      datum baseAddress
-      {
-         value = "268435720";
          type = "long";
       }
    }
@@ -1279,19 +1279,6 @@
          type = "long";
       }
    }
-   element packet_memory.s1
-   {
-      datum _lockedAddress
-      {
-         value = "1";
-         type = "boolean";
-      }
-      datum baseAddress
-      {
-         value = "136318976";
-         type = "String";
-      }
-   }
    element SDRAM.s1
    {
       datum _lockedAddress
@@ -1303,6 +1290,19 @@
       {
          value = "0";
          type = "long";
+      }
+   }
+   element packet_memory.s1
+   {
+      datum _lockedAddress
+      {
+         value = "1";
+         type = "boolean";
+      }
+      datum baseAddress
+      {
+         value = "136318976";
+         type = "String";
       }
    }
    element descriptor_memory.s1
@@ -1386,6 +1386,14 @@
          type = "boolean";
       }
    }
+   element External_Clocks.vga_clk
+   {
+      datum _clockDomain
+      {
+         value = "vga_clk";
+         type = "String";
+      }
+   }
    element vga_clk
    {
       datum _sortIndex
@@ -1397,14 +1405,6 @@
       {
          value = "0";
          type = "boolean";
-      }
-   }
-   element External_Clocks.vga_clk
-   {
-      datum _clockDomain
-      {
-         value = "vga_clk";
-         type = "String";
       }
    }
 }
@@ -1422,7 +1422,7 @@
  <parameter name="projectName" value="" />
  <parameter name="sopcBorderPoints" value="false" />
  <parameter name="systemHash" value="1" />
- <parameter name="timeStamp" value="1433197641852" />
+ <parameter name="timeStamp" value="1433206233688" />
  <parameter name="useTestBenchNamingPattern" value="false" />
  <instanceScript></instanceScript>
  <interface
@@ -1890,10 +1890,10 @@
   <parameter name="device">On-Board Peripherals</parameter>
   <parameter name="board" value="DE2-115" />
   <parameter name="eai" value="true" />
-  <parameter name="audio_in" value="Microphone to ADC" />
+  <parameter name="audio_in" value="Line In to ADC" />
   <parameter name="dac_enable" value="true" />
   <parameter name="mic_bypass" value="false" />
-  <parameter name="line_in_bypass" value="true" />
+  <parameter name="line_in_bypass" value="false" />
   <parameter name="mic_attenuation" value="-6dB" />
   <parameter name="data_format" value="Left Justified" />
   <parameter name="bit_length" value="32" />
@@ -4527,6 +4527,15 @@
    start="External_Clocks.sys_clk"
    end="belfft_0.clock_sink" />
  <connection
+   kind="avalon"
+   version="13.0"
+   start="CPU.data_master"
+   end="belfft_0.control_slave">
+  <parameter name="arbitrationPriority" value="1" />
+  <parameter name="baseAddress" value="0x08203000" />
+  <parameter name="defaultConnection" value="false" />
+ </connection>
+ <connection
    kind="reset"
    version="13.0"
    start="CPU.jtag_debug_module_reset"
@@ -4547,15 +4556,6 @@
    end="SDRAM.s1">
   <parameter name="arbitrationPriority" value="1" />
   <parameter name="baseAddress" value="0x0000" />
-  <parameter name="defaultConnection" value="false" />
- </connection>
- <connection
-   kind="avalon"
-   version="13.0"
-   start="CPU.data_master"
-   end="belfft_0.control_slave">
-  <parameter name="arbitrationPriority" value="1" />
-  <parameter name="baseAddress" value="0x08203000" />
   <parameter name="defaultConnection" value="false" />
  </connection>
  <connection
