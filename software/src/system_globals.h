@@ -14,6 +14,6 @@
 #define DOUBLE_PRECISION
 #define FFT_LEN 128
 
-#define AUDIO_DIVISOR 4
+#define AUDIO_DIVISOR 16
 
 #endif /* __SYSTEM_GLOBALS_H__ */

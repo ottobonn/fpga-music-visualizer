@@ -50,7 +50,7 @@ volatile bool audio_ready = false;
 // FFT averaging and power spectrum
 #define AVERAGING_LENGTH 2
 size_t current_power_history_index = 0;
-float power_history[AVERAGING_LENGTH][FFT_LEN/2];
+float power_history[FFT_LEN/2][AVERAGING_LENGTH];
 float average_power_spectrum[FFT_LEN/2];
 
 
@@ -123,7 +123,7 @@ int values[FFT_LEN] = {98,
  ****  FUNCTION PROTOTYPES  ****
  *******************************/
 /* General. */
-static void initialize (void);
+static int initialize (void);
 static void run (void);
 
 int test_fft();
@@ -133,8 +133,9 @@ int fft ();
 void signal_audio_ready ();
 
 /* Configuration Functions */
-static void configure_lcd();
-static void configure_interrupts();
+static void configure_lcd ();
+static void configure_interrupts ();
+static int configure_fft ();
 
 float map (float value, float d0, float d1, float r0, float r1);
 
@@ -150,7 +151,8 @@ float map (float value, float d0, float d1, float r0, float r1);
 int main(void)
 {
   /* Initialize devices and introduce application. */
-  initialize ();
+  if (initialize () != 0)
+    return 1;
 
   /* Repeatedly checks state and makes updates. */
   run ();
@@ -161,33 +163,23 @@ int main(void)
 /**
  * Function: initialize
  * --------------------
- * Prepare all interrupts and interfaces.
+ * Prepare all interrupts and interfaces. Returns 0 on success, nonzero otherwise.
  */
-static void initialize (void)
+static int initialize (void)
 {
   configure_lcd ();
 
   configure_interrupts ();
 
-  fft_cfg = kiss_fft_alloc (FFT_LEN, 0, NULL, 0);
-  if (! fft_cfg) {
-    printf ("Error: Cannot allocate memory for FFT control structure.\n");
+  if (configure_fft () != 0)
     return 1;
-  }
-  size_t i;
-  for (i = 0; i < FFT_LEN; i++)
-    samples_for_fft[i].i = 0;
-}
 
+  return 0;
+}
 
 static void configure_interrupts ()
 {
   audio_init (audio_isr);
-
-  pushbuttons_enable_interrupts (pushbuttons_isr);
-  pushbuttons_set_interrupt_mask (BUTTON1 | BUTTON2 | BUTTON3);
-
-  // alt_irq_register (BELFFT_0_IRQ, NULL, (alt_isr_func) fft_isr);
 }
 
 static void configure_lcd ()
@@ -198,9 +190,26 @@ static void configure_lcd ()
   lcd_draw_rectangle (0, 0, LCD_RES_X, LCD_RES_Y, BLACK);
 }
 
+static int configure_fft ()
+{
+  fft_cfg = kiss_fft_alloc (FFT_LEN, 0, NULL, 0);
+  if (! fft_cfg) {
+    printf ("Error: Cannot allocate memory for FFT control structure.\n");
+    return 1;
+  }
+
+  // Set imaginary part of FFT input vector to 0
+  size_t i;
+  for (i = 0; i < FFT_LEN; i++)
+    samples_for_fft[i].i = 0;
+
+  return 0;
+}
+
 /**
  * Function: run
  * -------------
+ * Request audio, then perform an FFT and draw it. Repeat.
  */
 void run (void)
 {
@@ -208,44 +217,51 @@ void run (void)
     {
       samples_for_fft_requested = true; // Request audio
       while (!audio_ready); // Wait for audio
+      green_leds_set (0xFF);
       fft ();
+      green_leds_clear (0xFF);
       draw_fft ();
       audio_ready = false;
     }
 }
 
+/**
+ * Function: fft
+ * -------------
+ * Perform a hardware FFT on the samples_for_fft array.
+ * Also store historical FFT outputs in a ring buffer of length AVERAGING_LENGTH
+ * so the animation is smoother.
+ */
 int fft ()
 {
   int i, j;
-
   kiss_fft (fft_cfg, samples_for_fft, fout);
-
   for (i = 0; i < FFT_LEN / 2; i++)
     {
-      power_history[current_power_history_index][i] = sqrt(fout[i].r*fout[i].r + fout[i].i*fout[i].i);
+      float power = sqrt(fout[i].r*fout[i].r + fout[i].i*fout[i].i);
 
+      float scaled_power = map(power, 0, 100000, 0, LCD_RES_Y);
+      power_history[i][current_power_history_index] = scaled_power;
       // Blend in historical data for smoothing
       average_power_spectrum[i] = 0;
       for (j = 0; j < AVERAGING_LENGTH; j++)
-        average_power_spectrum[i] += power_history[j][i] / AVERAGING_LENGTH;
-
+        average_power_spectrum[i] += power_history[i][j] / (float) AVERAGING_LENGTH;
     }
 
   current_power_history_index = (current_power_history_index + 1) % AVERAGING_LENGTH;
-
   return 0;
 }
 
 void draw_fft ()
 {
   lcd_draw_rectangle (0, 0, LCD_RES_X, LCD_RES_Y, BLACK);
-  const size_t bar_width = 3;
+  const size_t bar_width = 4;
 
   int i;
   for (i = 0; i < FFT_LEN / 2; i++)
     {
-      int value = (int) (map(average_power_spectrum[i], 0, 100000, 0, LCD_RES_X));
-      lcd_draw_rectangle (0, bar_width * i, value, bar_width, WHITE);
+      int value = (int) average_power_spectrum[i];
+      lcd_draw_rectangle (bar_width * i, LCD_RES_Y - value, bar_width, value, WHITE);
     }
 
   lcd_swap_buffers ();

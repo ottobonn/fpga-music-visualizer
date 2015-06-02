@@ -1,5 +1,5 @@
 #include "ee109-lib/audio.h"
-#include "ee109-lib/green_leds.h"
+#include "ee109-lib/red_leds.h"
 #include "belfft/kiss_fft.h"
 #include "system_globals.h"
 #include <stdbool.h>
@@ -28,11 +28,13 @@ void audio_isr (void *context, unsigned int id)
   if (samples_for_fft_requested)
     {
       size_t i;
+      red_leds_set (0xFF);
 
       for (i = 0; i < FFT_LEN; i++)
-        samples_for_fft[i].r = clamp(left_buffer[i], 300);
+        samples_for_fft[i].r = left_buffer[i] / AUDIO_DIVISOR;
 
       samples_for_fft_requested = false;
       signal_audio_ready ();
+      red_leds_clear (0xFF);
     }
 }
