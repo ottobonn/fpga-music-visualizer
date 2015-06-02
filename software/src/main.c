@@ -271,7 +271,10 @@ float map (float value, float d0, float d1, float r0, float r1)
 {
   if (value > d1) return r1;
   if (value < d0) return r0;
-  return value * (r1 - r0) / (d1 - d0);
+  float new = value * (r1 - r0) / (d1 - d0);
+  if (new > r1) return r1;
+  if (new < r0) return r0;
+  return new;
 }
 
 void signal_audio_ready ()
