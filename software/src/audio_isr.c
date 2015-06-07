@@ -31,7 +31,7 @@ void audio_isr (void *context, unsigned int id)
       red_leds_set (0xFF);
 
       for (i = 0; i < FFT_LEN; i++)
-        samples_for_fft[i].r = left_buffer[i] / AUDIO_DIVISOR;
+        samples_for_fft[i].r = left_buffer[i];
 
       samples_for_fft_requested = false;
       signal_audio_ready ();

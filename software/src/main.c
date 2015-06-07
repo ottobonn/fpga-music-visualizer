@@ -35,6 +35,11 @@
 #define LCD_FRONT_BUFFER (SRAM_BASE)
 #define LCD_BACK_BUFFER  (SRAM_BASE + 0x80000)
 
+struct double_cpx {
+  double r;
+  double i;
+};
+
 /********************************
  ****  GLOBALS DECLARATIONS  ****
  ********************************/
@@ -47,81 +52,16 @@ extern volatile bool samples_for_fft_requested;
 
 // For hardware FFT
 kiss_fft_cfg fft_cfg;
-volatile kiss_fft_cpx fout[FFT_LEN];
+volatile kiss_fft_cpx fft_output[FFT_LEN];
+struct double_cpx scaled_fft_output[FFT_LEN/2];
 static void fft_isr (void *context, unsigned int id);
 volatile bool audio_ready = false;
 
 // FFT averaging and power spectrum
-#define AVERAGING_LENGTH 4
+#define AVERAGING_LENGTH 1
 size_t current_power_history_index = 0;
-float power_history[FFT_LEN/2][AVERAGING_LENGTH];
-float average_power_spectrum[FFT_LEN/2];
-
-
-int values[FFT_LEN] = {98,
-              195,
-              290,
-              382,
-              471,
-              555,
-              634,
-              707,
-              773,
-              831,
-              881,
-              923,
-              956,
-              980,
-              995,
-              1000,
-              995,
-              980,
-              956,
-              923,
-              881,
-              831,
-              773,
-              707,
-              634,
-              555,
-              471,
-              382,
-              290,
-              195,
-              98,
-              0,
-              -99,
-              -196,
-              -291,
-              -383,
-              -472,
-              -556,
-              -635,
-              -708,
-              -774,
-              -832,
-              -882,
-              -924,
-              -957,
-              -981,
-              -996,
-              -1000,
-              -996,
-              -981,
-              -957,
-              -924,
-              -882,
-              -832,
-              -774,
-              -708,
-              -635,
-              -556,
-              -472,
-              -383,
-              -291,
-              -196,
-              -99,
-              -1};
+double power_history[FFT_LEN/2][AVERAGING_LENGTH];
+double average_power_spectrum[FFT_LEN/2];
 
 /*******************************
  ****  FUNCTION PROTOTYPES  ****
@@ -130,16 +70,20 @@ int values[FFT_LEN] = {98,
 static int initialize (void);
 static void run (void);
 
-int test_fft();
-void draw_fft ();
+/* Hardware FFT functions */
 static void fft_isr (void *context, unsigned int id);
 int fft ();
 void signal_audio_ready ();
 
-/* Configuration Functions */
+/* Drawing functions */
+void draw_fft ();
+void swap_buffers ();
+
+/* Configuration functions */
 static void configure_lcd ();
 static void configure_interrupts ();
 static int configure_fft ();
+
 
 float mapf (float value, float d0, float d1, float r0, float r1);
 double mapd (double value, double d0, double d1, double r0, double r1);
@@ -190,8 +134,10 @@ static void configure_interrupts ()
 static void configure_lcd ()
 {
   lcd_set_front_buffer (LCD_FRONT_BUFFER);
-  //lcd_set_back_buffer (LCD_BACK_BUFFER);
+  lcd_set_back_buffer (LCD_BACK_BUFFER);
   lcd_enable_dma (true);
+  lcd_draw_rectangle (0, 0, LCD_RES_X, LCD_RES_Y, BLACK);
+  swap_buffers ();
 }
 
 static int configure_fft ()
@@ -225,8 +171,9 @@ void run (void)
       fft ();
       green_leds_clear (0xFF);
       //draw_fft ();
-      lcd_draw_rectangle (0, 0, LCD_RES_X, LCD_RES_Y, BLACK);
-      tlda_draw (0,1,0,1,RED,10);
+      lcd_draw_rectangle_back (0, 0, LCD_RES_X, LCD_RES_Y, BLACK);
+      tlda_draw (0,0,10,10,RED,10);
+      swap_buffers ();
       audio_ready = false;
     }
 }
@@ -241,26 +188,36 @@ void run (void)
 int fft ()
 {
   int i, j;
-  kiss_fft (fft_cfg, samples_for_fft, fout);
+  kiss_fft (fft_cfg, samples_for_fft, fft_output);
+
   for (i = 0; i < FFT_LEN / 2; i++)
     {
-      double power = sqrt(fout[i].r*fout[i].r + fout[i].i*fout[i].i);
+      //scaled_fft_output[i].r = mapd((double) fft_output[i].r, 0, MAX_INT, 0, 0x10000);
+      //scaled_fft_output[i].i = mapd((double) fft_output[i].i, 0, MAX_INT, 0, 0x10000);
 
-      float scaled_power = mapd(power, 0, 10000, 0, LCD_RES_Y);
+      double power = sqrt((double)fft_output[i].r*(double)fft_output[i].r + (double)fft_output[i].i*(double)fft_output[i].i);
+
+      float scaled_power = mapd(power, 0, 100000000, 0, LCD_RES_Y-1);
       power_history[i][current_power_history_index] = scaled_power;
       // Blend in historical data for smoothing
       average_power_spectrum[i] = 0;
       for (j = 0; j < AVERAGING_LENGTH; j++)
-        average_power_spectrum[i] += power_history[i][j] / (float) AVERAGING_LENGTH;
+        average_power_spectrum[i] += power_history[i][j] / (double) AVERAGING_LENGTH;
     }
 
   current_power_history_index = (current_power_history_index + 1) % AVERAGING_LENGTH;
   return 0;
 }
 
+void swap_buffers ()
+{
+  lcd_swap_buffers ();
+  tlda_set_drawing_buffer (lcd_get_backbuffer_addr ());
+}
+
 void draw_fft ()
 {
-  lcd_draw_rectangle (0, 0, LCD_RES_X, LCD_RES_Y, BLACK);
+  lcd_draw_rectangle_back (0, 0, LCD_RES_X, LCD_RES_Y, BLACK);
   const size_t bar_width = 12;
 
   int i;
@@ -269,20 +226,14 @@ void draw_fft ()
       int value = (int) average_power_spectrum[i];
       // lcd_draw_rectangle (bar_width * i, LCD_RES_Y - value, bar_width, value, rand () % 0x10000);
       tlda_draw (bar_width * i + bar_width / 2,
-                LCD_RES_Y - value,
+                LCD_RES_Y - value - 1,
                 bar_width * i + bar_width / 2,
                 LCD_RES_Y,
                 rand () % 0x10000,
-                bar_width / 2);
-      // tlda_draw (0,
-      //           0,
-      //           LCD_RES_X,
-      //           LCD_RES_Y,
-      //           WHITE,
-      //           10);
+                bar_width / 2
+                );
     }
-
-  //lcd_swap_buffers ();
+  swap_buffers ();
 }
 
 float mapf (float value, float d0, float d1, float r0, float r1)
@@ -290,8 +241,6 @@ float mapf (float value, float d0, float d1, float r0, float r1)
   if (value > d1) return r1;
   if (value < d0) return r0;
   float new = value * (r1 - r0) / (d1 - d0);
-  if (new > r1) return r1;
-  if (new < r0) return r0;
   return new;
 }
 
@@ -300,44 +249,12 @@ double mapd (double value, double d0, double d1, double r0, double r1)
   if (value > d1) return r1;
   if (value < d0) return r0;
   double new = value * (r1 - r0) / (d1 - d0);
-  if (new > r1) return r1;
-  if (new < r0) return r0;
   return new;
 }
 
 void signal_audio_ready ()
 {
   audio_ready = true;
-}
-
-int test_fft()
-{
-
-
-    kiss_fft_cpx fin[FFT_LEN];
-
-    volatile kiss_fft_cpx fout[FFT_LEN];
-    int i;
-
-    /*
-     * Initialize the destination memory area to see that the FFT has actually calculated something.
-     */
-    for (i = 0; i < FFT_LEN; i++) {
-    	fin[i].r = values[i];
-      fin[i].i = 0;
-    }
-
-    kiss_fft (fft_cfg, fin, fout);
-
-    /*
-     *  Print out the FFT result.
-     */
-    for (i = 0; i < FFT_LEN / 2; i++) {
-      average_power_spectrum[i] = sqrt(fout[i].r*fout[i].r + fout[i].i*fout[i].i);
-    }
-
-
-    return 0;
 }
 
 static void fft_isr (void *context, unsigned int id)

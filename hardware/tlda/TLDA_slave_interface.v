@@ -22,7 +22,8 @@ module TLDA_slave_interface (
 	output 	  [7:0]	Y0_to_LDA,
 	output 	  [7:0]	Y1_to_LDA,
 	output	  [8:0] Thickness,
-	output 	  [15:0]	Color_to_LDA
+	output 	  [15:0]	Color_to_LDA,
+	output    [31:0] Base_Addr_to_LDA
 );
 
 // ENABLE THE THICKNESS COMPONENT
@@ -38,6 +39,7 @@ module TLDA_slave_interface (
 `define LINE_END	3
 `define LINE_COLOR 4
 `define LINE_THICKNESS 5
+`define BASE_ADDR 6
 
 
 reg [8:0] next_X0, next_X1;
@@ -65,6 +67,9 @@ always @(*) begin
 				`LINE_THICKNESS: begin
 					slave_readdata = Thickness;
 				end
+				`BASE_ADDR: begin
+					slave_readdata = Base_Addr_to_LDA;
+				end
 				default: begin
 					slave_readdata = 0;
 				end
@@ -78,7 +83,7 @@ always @(*) begin
 end
 
 
-wire write_line_start, write_line_end, write_color, write_go, write_thickness;
+wire write_line_start, write_line_end, write_color, write_go, write_thickness, write_base_addr;
 
 assign write_line_start = slave_write & slave_chipselect
 													& (slave_address == `LINE_START);
@@ -91,11 +96,22 @@ assign write_color 			= slave_write & slave_chipselect
 
 assign write_go					= slave_write & slave_chipselect
 													& (slave_address == `GO_REGISTER);
+
 assign write_thickness = slave_write & slave_chipselect
 													& (slave_address == `LINE_THICKNESS);
 
+assign write_base_addr = slave_write & slave_chipselect
+													& (slave_address == `BASE_ADDR);
 
 assign Go_to_LDA = write_go & slave_writedata[0];
+
+dffre #(32) base_addr_ff (
+  .clk    (clk),
+  .reset  (~resetn),
+  .en     (write_base_addr),
+  .d      (slave_writedata),
+  .q      (Base_Addr_to_LDA)
+);
 
 falling_dffre #(9) x0_ff (
 	.clk		(clk),

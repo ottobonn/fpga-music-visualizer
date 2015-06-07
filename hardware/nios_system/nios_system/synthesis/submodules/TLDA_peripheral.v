@@ -28,7 +28,7 @@ wire		Go, Draw, Done, Write_Finish;
 wire 		[8:0] X0,X1,Thickness;
 wire		[7:0] Y0,Y1;
 wire 		[15:0] Color;
-wire		[31:0] Pixel_Address;
+wire		[31:0] Pixel_Address, Base_Addr;
 
 /*****************************************************************************
  *                              Internal Modules                             *
@@ -55,7 +55,8 @@ TLDA_slave_interface ASI(
 		.Y0_to_LDA			(Y0),
 		.X1_to_LDA			(X1),
 		.Y1_to_LDA			(Y1),
-		.Color_to_LDA		(Color)
+		.Color_to_LDA		(Color),
+		.Base_Addr_to_LDA (Base_Addr)
 );
 
 //line_drawing_algorithm circuit
@@ -79,7 +80,8 @@ TLDA_circuit TLDA_C(
 		.Pixel_Address		(Pixel_Address),
 
 		// inout signal, its value is unchanged in this module
-		.Color				(Color)
+		.Color				(Color),
+		.Base_Addr 		(Base_Addr)
 );
 
 
@@ -101,7 +103,6 @@ TLDA_master_interface AMI(
 		.Pixel_Address_from_LDA	(Pixel_Address),
 		.Color_from_LDA			(Color),
 		.Write_Finish_to_LDA 	(Write_Finish)
-
 );
 
 endmodule

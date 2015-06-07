@@ -11,6 +11,7 @@ reg [7:0] Y0, Y1;
 reg Write_Finish;
 reg [15:0] Color;
 reg [8:0] Thickness;
+reg [31:0] Base_Addr;
 
 wire Done;
 wire Draw;
@@ -32,7 +33,8 @@ TLDA_circuit dut(
   .Pixel_Address  (Pixel_Address),
 
   .Color    (),
-  .Thickness(Thickness)
+  .Thickness(Thickness),
+  .Base_Addr (Base_Addr)
 );
 
 always begin
@@ -51,6 +53,7 @@ initial begin
   Go = 0;
   Write_Finish = 0;
   Color = 0;
+  Base_Addr = 32'h09000000;
 
   // Bring out of reset
   #20;
@@ -61,9 +64,9 @@ initial begin
   // Horizontal right now.
   // Next tests: vertical & any sloped line
   X0 = 0;
-  Y0 = 1;
+  Y0 = 0;
   X1 = 0;
-  Y1 = 1;
+  Y1 = 3;
   Color = 16'hFFFF;
   Thickness = 10;
 

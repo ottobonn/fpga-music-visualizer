@@ -52,15 +52,13 @@ module LDA_circuit(
     output [31:0]	   Pixel_Address,
 
 		// inout signal, its value is unchanged in this module
-		inout  [15:0]	Color
+		inout  [15:0]		Color,
+		input  [31:0] 	Base_Addr
 );
 
 /*******************************************************************************/
 /*                        Please Write your code below                         */
 /*******************************************************************************/
-
-wire [31:0] BASE_ADDR;
-assign BASE_ADDR = 32'h08000000;
 
 // Holds abs(x1 - x0)
 wire [8:0] abs_x_difference;
@@ -113,8 +111,8 @@ wire [8:0] Y, X;
 reg [8:0] next_X, next_Y;
 
 assign Pixel_Address = is_steep ?
-                        {BASE_ADDR[31:18], next_X[7:0], next_Y[8:0], 1'b0} :
-                        {BASE_ADDR[31:18], next_Y[7:0], next_X[8:0], 1'b0};
+                        {Base_Addr[31:18], next_X[7:0], next_Y[8:0], 1'b0} :
+                        {Base_Addr[31:18], next_Y[7:0], next_X[8:0], 1'b0};
 
 
 always @(*) begin

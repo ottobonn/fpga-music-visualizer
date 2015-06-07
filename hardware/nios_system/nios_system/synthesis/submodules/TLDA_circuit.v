@@ -1,5 +1,5 @@
 /*****************************************************************************
- *                                     LDA Circuit Module                            *
+ *                                     TLDA Circuit Module                   *
  *****************************************************************************
  *
  * This file implements the optimized Bresenham's line algorithm.
@@ -28,12 +28,10 @@
  *               y = y + ystep
  *               error = error - deltax
  *   }
+ *
+ * At each point along the line, this module draws a cross-hatching line
+ * of length THICKNESS, so that the final line is wider than one pixel.
  *****************************************************************************/
-
-`define IDLE_STATE            0
-`define DRAWING_STATE         1
-`define LOADING_STATE         2
-`define DONE_STATE            3
 
 module TLDA_circuit(
     // clock and reset signals
@@ -53,15 +51,15 @@ module TLDA_circuit(
     output [31:0]   Pixel_Address,
 
     // inout signal, its value is unchanged in this module
-    inout  [15:0]   Color
+    inout  [15:0]   Color,
+    input  [31:0]   Base_Addr
 );
 
-/*******************************************************************************/
-/*                        Please Write your code below                         */
-/*******************************************************************************/
-
-// wire [31:0] BASE_ADDR;
-// assign BASE_ADDR = 32'h08000000;
+parameter STATE_IDLE = 0,
+          STATE_START_LDA = 1,
+          STATE_WAIT_FOR_LDA = 2,
+          STATE_ADVANCE = 3,
+          STATE_DONE = 4;
 
 // Holds abs(x1 - x0)
 wire [8:0] abs_x_difference;
@@ -104,8 +102,8 @@ assign delta_Y = ($signed(Y1_new - Y0_new) >= 0) ? Y1_new - Y0_new : Y0_new - Y1
 wire signed [8:0] Y_step;
 assign Y_step = (Y0_new < Y1_new) ? 1 : -1;
 
-reg   [1:0] next_state;
-wire  [1:0] current_state;
+reg   [2:0] next_state;
+wire  [2:0] current_state;
 
 wire signed [8:0] error;
 reg signed [8:0] next_error;
@@ -113,61 +111,65 @@ reg signed [8:0] next_error;
 wire [8:0] Y, X;
 reg [8:0] next_X, next_Y;
 
-// Problems:
-// 1. Thickness not working, could be related to stepping
-// 4. Need to implement interrupts.
-// 5. *** For slopped lines not all points will be filled ***
-
+// Wires for the LDA that draws the small cross-hatching lines
 wire Go_Small, Draw_Small, Done_Small;
 wire  [8:0]    X0_Small, X1_Small;
 wire  [7:0]    Y0_Small, Y1_Small;
 wire signed [8:0] delta_Small_1;
 wire signed [8:0] delta_Small_2;
 
-assign Go_Small = (current_state == `LOADING_STATE /*&& next_state == `DRAWING_STATE*/) ? 1 : 0;
+// Data for the small LDA
 assign delta_Small_1 = $signed(Thickness);
-assign delta_Small_2 = 0; 
-               
+assign delta_Small_2 = 0;
 assign X0_Small = is_steep ? $signed(Y) + delta_Small_1 : $signed(X) - delta_Small_2;
 assign X1_Small = is_steep ? Y : X;
 assign Y0_Small = is_steep ? $signed(X) - delta_Small_2 : $signed(Y) + delta_Small_1;
 assign Y1_Small = is_steep ? X : Y;
 
-assign Done = (current_state == `DONE_STATE || current_state == `IDLE_STATE) ? 1 : 0;
-assign Draw = (current_state == `DRAWING_STATE) ? 1 /*Draw_Small*/ : 0;
+// Signals controlling the small LDA
+assign Go_Small = (current_state == STATE_START_LDA);
+assign Done = (current_state == STATE_DONE || current_state == STATE_IDLE);
+assign Draw = Draw_Small; // TLDA only draws when small LDA draws
 
 always @(*) begin
   case (current_state)
-    `IDLE_STATE: begin
-      next_state = Go ? `DRAWING_STATE : `IDLE_STATE;
+    STATE_IDLE: begin // Wait for Go
+      if (X == X1_new) begin
+        next_state = STATE_DONE;
+      end else begin
+        next_state = Go ? STATE_START_LDA : STATE_IDLE;
+      end
       next_X = X0_new;
       next_Y = Y0_new;
       next_error = -(delta_X / 2);
     end
-    `DRAWING_STATE: begin
-      if (Write_Finish) begin
-        next_state = Done_Small ? `LOADING_STATE : `DRAWING_STATE;
-      end else begin
-        next_state = `DRAWING_STATE;
-      end
+    STATE_START_LDA: begin // Start the small LDA
+      next_state = STATE_WAIT_FOR_LDA;
       next_X = X;
       next_Y = Y;
       next_error = error;
     end
-    `LOADING_STATE: begin
-      next_state = (X < X1_new) ? `DRAWING_STATE : `DONE_STATE;
+    STATE_WAIT_FOR_LDA: begin // Wait until the small LDA finishes
+      if (Done_Small) begin
+        next_state = (X < X1_new) ? STATE_ADVANCE : STATE_DONE;
+      end else begin
+        next_state = STATE_WAIT_FOR_LDA;
+      end
+    end
+    STATE_ADVANCE: begin // Advance along the main line
+      next_state = STATE_START_LDA;
       next_X = X + 1;
       next_Y = (error + $signed(delta_Y) > 0) ? $signed(Y) + Y_step : Y;
       next_error = (error + $signed(delta_Y) > 0) ? error + $signed(delta_Y - delta_X) : error + delta_Y;
     end
-    `DONE_STATE: begin
-      next_state = `IDLE_STATE;
+    STATE_DONE: begin // Done drawing the entire line
+      next_state = STATE_IDLE;
       next_X = 0;
       next_Y = 0;
       next_error = 0;
     end
     default: begin
-      next_state = `IDLE_STATE;
+      next_state = STATE_IDLE;
       next_X = 0;
       next_Y = 0;
       next_error = 0;
@@ -175,7 +177,7 @@ always @(*) begin
   endcase
 end
 
-dffre #(2) state_ff (
+dffre #(3) state_ff (
   .clk    (clk),
   .reset  (~resetn),
   .en     (1'b1),
@@ -219,7 +221,8 @@ LDA_circuit LDA_circuit_alg(
     .Write_Finish     (Write_Finish),
     .Draw             (Draw_Small),
     .Pixel_Address    (Pixel_Address),
-    .Color            (Color)
+    .Color            (Color),
+    .Base_Addr        (Base_Addr)
 );
 
 endmodule

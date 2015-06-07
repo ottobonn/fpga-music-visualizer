@@ -51,7 +51,8 @@ module TLDA_circuit(
     output [31:0]   Pixel_Address,
 
     // inout signal, its value is unchanged in this module
-    inout  [15:0]   Color
+    inout  [15:0]   Color,
+    input  [31:0]   Base_Addr
 );
 
 parameter STATE_IDLE = 0,
@@ -220,7 +221,8 @@ LDA_circuit LDA_circuit_alg(
     .Write_Finish     (Write_Finish),
     .Draw             (Draw_Small),
     .Pixel_Address    (Pixel_Address),
-    .Color            (Color)
+    .Color            (Color),
+    .Base_Addr        (Base_Addr)
 );
 
 endmodule

@@ -121,3 +121,8 @@ void lcd_char_buffer_clear (void)
         *(char_buff_base + offset) = ' ';  // write to the character buffer
       }
 }
+
+void *lcd_get_backbuffer_addr (void)
+{
+  return *back_buff_reg;
+}
