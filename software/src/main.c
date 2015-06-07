@@ -224,7 +224,9 @@ void run (void)
       green_leds_set (0xFF);
       fft ();
       green_leds_clear (0xFF);
-      draw_fft ();
+      // draw_fft ();
+      lcd_draw_rectangle (0, 0, LCD_RES_X, LCD_RES_Y, BLACK);
+      tlda_draw (0,1,0,10,WHITE,10);
       audio_ready = false;
     }
 }

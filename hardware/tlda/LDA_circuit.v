@@ -130,7 +130,7 @@ always @(*) begin
     `DRAWING_STATE: begin
       next_state = `WAITING_STATE;
       Done = 0;
-      Draw = (next_state == `DONE_STATE) ? 0 : 1;
+      Draw = next_state != `DONE_STATE;
       next_X = X + 1;
       next_Y = (error + $signed(delta_Y) > 0) ? $signed(Y) + Y_step : Y;
       next_error = (error + $signed(delta_Y) > 0) ? error + $signed(delta_Y - delta_X) : error + delta_Y;
