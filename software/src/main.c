@@ -35,11 +35,6 @@
 #define LCD_FRONT_BUFFER (SRAM_BASE)
 #define LCD_BACK_BUFFER  (SRAM_BASE + 0x80000)
 
-struct double_cpx {
-  double r;
-  double i;
-};
-
 /********************************
  ****  GLOBALS DECLARATIONS  ****
  ********************************/
@@ -53,7 +48,6 @@ extern volatile bool samples_for_fft_requested;
 // For hardware FFT
 kiss_fft_cfg fft_cfg;
 volatile kiss_fft_cpx fft_output[FFT_LEN];
-struct double_cpx scaled_fft_output[FFT_LEN/2];
 static void fft_isr (void *context, unsigned int id);
 volatile bool audio_ready = false;
 
@@ -136,7 +130,7 @@ static void configure_lcd ()
   lcd_set_front_buffer (LCD_FRONT_BUFFER);
   lcd_set_back_buffer (LCD_BACK_BUFFER);
   lcd_enable_dma (true);
-  lcd_draw_rectangle (0, 0, LCD_RES_X, LCD_RES_Y, BLACK);
+  lcd_draw_rectangle_back (0, 0, LCD_RES_X, LCD_RES_Y, BLACK);
   swap_buffers ();
 }
 
@@ -170,10 +164,10 @@ void run (void)
       green_leds_set (0xFF);
       fft ();
       green_leds_clear (0xFF);
-      //draw_fft ();
-      lcd_draw_rectangle_back (0, 0, LCD_RES_X, LCD_RES_Y, BLACK);
-      tlda_draw (0,0,10,10,RED,10);
-      swap_buffers ();
+      draw_fft ();
+      //lcd_draw_rectangle_back (0, 0, LCD_RES_X, LCD_RES_Y, BLACK);
+      //tlda_draw (1,LCD_RES_Y-100,1,LCD_RES_Y,RED,10);
+      //swap_buffers ();
       audio_ready = false;
     }
 }
@@ -192,9 +186,6 @@ int fft ()
 
   for (i = 0; i < FFT_LEN / 2; i++)
     {
-      //scaled_fft_output[i].r = mapd((double) fft_output[i].r, 0, MAX_INT, 0, 0x10000);
-      //scaled_fft_output[i].i = mapd((double) fft_output[i].i, 0, MAX_INT, 0, 0x10000);
-
       double power = sqrt((double)fft_output[i].r*(double)fft_output[i].r + (double)fft_output[i].i*(double)fft_output[i].i);
 
       float scaled_power = mapd(power, 0, 100000000, 0, LCD_RES_Y-1);

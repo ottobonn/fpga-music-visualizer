@@ -9,7 +9,7 @@ static volatile unsigned int *dl_xy1 =    	    (unsigned int *) (TLDA_PERIPHERAL
 static volatile unsigned int *dl_color =  	    (unsigned int *) (TLDA_PERIPHERAL_0_BASE + 16);	// color
 static volatile unsigned int *dl_thickness = 	(unsigned int *) (TLDA_PERIPHERAL_0_BASE + 20); // thickness
 static volatile unsigned int *dl_base_addr = 	(unsigned int *) (TLDA_PERIPHERAL_0_BASE + 24); // base memory address
-static volatile void *drawing_buffer = 0x08000000;
+static void *drawing_buffer = 0x08000000;
 
 /* Hardware drawline */
 void tlda_draw (unsigned int x0,
