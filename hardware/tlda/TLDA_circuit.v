@@ -155,6 +155,9 @@ always @(*) begin
       end else begin
         next_state = STATE_WAIT_FOR_LDA;
       end
+      next_X = X;
+      next_Y = Y;
+      next_error = error;
     end
     STATE_ADVANCE: begin // Advance along the main line
       next_state = STATE_START_LDA;
