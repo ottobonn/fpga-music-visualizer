@@ -217,10 +217,10 @@ void draw_fft ()
       int value = (int) average_power_spectrum[i];
       // lcd_draw_rectangle (bar_width * i, LCD_RES_Y - value, bar_width, value, rand () % 0x10000);
       tlda_draw (bar_width * i + bar_width / 2,
-                LCD_RES_Y - value - 1,
+                LCD_RES_Y - value,
                 bar_width * i + bar_width / 2,
                 LCD_RES_Y,
-                rand () % 0x10000,
+                (value + 1000) % 0x10000,
                 bar_width / 2
                 );
     }
