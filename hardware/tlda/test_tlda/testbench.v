@@ -63,7 +63,7 @@ initial begin
   X0 = 0;
   Y0 = 1;
   X1 = 0;
-  Y1 = 10;
+  Y1 = 1;
   Color = 16'hFFFF;
   Thickness = 10;
 

@@ -52,7 +52,7 @@ static void fft_isr (void *context, unsigned int id);
 volatile bool audio_ready = false;
 
 // FFT averaging and power spectrum
-#define AVERAGING_LENGTH 2
+#define AVERAGING_LENGTH 4
 size_t current_power_history_index = 0;
 float power_history[FFT_LEN/2][AVERAGING_LENGTH];
 float average_power_spectrum[FFT_LEN/2];
@@ -224,9 +224,9 @@ void run (void)
       green_leds_set (0xFF);
       fft ();
       green_leds_clear (0xFF);
-      // draw_fft ();
+      //draw_fft ();
       lcd_draw_rectangle (0, 0, LCD_RES_X, LCD_RES_Y, BLACK);
-      tlda_draw (0,1,0,10,WHITE,10);
+      tlda_draw (0,1,0,1,RED,10);
       audio_ready = false;
     }
 }
@@ -246,7 +246,7 @@ int fft ()
     {
       double power = sqrt(fout[i].r*fout[i].r + fout[i].i*fout[i].i);
 
-      float scaled_power = mapd(power, 0, 100000, 0, LCD_RES_Y);
+      float scaled_power = mapd(power, 0, 10000, 0, LCD_RES_Y);
       power_history[i][current_power_history_index] = scaled_power;
       // Blend in historical data for smoothing
       average_power_spectrum[i] = 0;

@@ -133,7 +133,11 @@ assign Draw = Draw_Small; // TLDA only draws when small LDA draws
 always @(*) begin
   case (current_state)
     STATE_IDLE: begin // Wait for Go
-      next_state = Go ? STATE_START_LDA : STATE_IDLE;
+      if (X == X1_new) begin
+        next_state = STATE_DONE;
+      end else begin
+        next_state = Go ? STATE_START_LDA : STATE_IDLE;
+      end
       next_X = X0_new;
       next_Y = Y0_new;
       next_error = -(delta_X / 2);

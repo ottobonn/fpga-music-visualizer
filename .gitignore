@@ -33,7 +33,6 @@
 *.app
 *.i*86
 *.x86_64
-*.hex
 
 # Debug files
 *.dSYM/
@@ -65,7 +64,6 @@ obj/
 *.sof
 *.sopc_builder
 *.summary
-*.tcl
 *.txt # Explicitly add any text files used
 *~
 *example*
