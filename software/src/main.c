@@ -51,7 +51,7 @@ volatile kiss_fft_cpx fft_output[FFT_LEN];
 volatile bool audio_ready = false;
 
 // Number of bins to draw (must be <= FFT_LEN)
-#define DRAWING_BINS (FFT_LEN / 4)
+#define DRAWING_BINS (FFT_LEN / 4 - 1)
 
 // FFT averaging and power spectrum
 #define AVERAGING_LENGTH 1
@@ -174,9 +174,6 @@ void run (void)
       fft ();
       green_leds_clear (0xFF);
       draw_fft ();
-      //lcd_draw_rectangle_back (0, 0, LCD_RES_X, LCD_RES_Y, BLACK);
-      //tlda_draw (1,LCD_RES_Y-100,1,LCD_RES_Y,RED,10);
-      //swap_buffers ();
       audio_ready = false;
     }
 }
@@ -220,7 +217,7 @@ void swap_buffers ()
 void draw_fft ()
 {
   lcd_draw_rectangle_back (0, 0, LCD_RES_X, LCD_RES_Y, BLACK);
-  const size_t bar_width = 12;
+  const size_t bar_width = 13;
 
   int i;
   for (i = 0; i < DRAWING_BINS; i++)
@@ -228,20 +225,20 @@ void draw_fft ()
       int value = (int) average_power_spectrum[i];
       if (use_hardware_rendering)
         {
-          tlda_draw (bar_width * i + bar_width / 2,
+          tlda_draw (bar_width * i,
                     LCD_RES_Y - value,
-                    bar_width * i + bar_width / 2,
+                    bar_width * i,
                     LCD_RES_Y,
                     (value + 1000) % 0x10000,
-                    bar_width / 2);
+                    bar_width - 2);
         }
       else
         {
-          lcd_draw_rectangle_back (bar_width * i + bar_width / 2,
-                                      LCD_RES_Y - value,
-                                      bar_width / 2,
-                                      value,
-                                      (value + 1000) % 0x10000);
+          lcd_draw_rectangle_back (bar_width * i,
+                                    LCD_RES_Y - value,
+                                    bar_width - 1,
+                                    value,
+                                    (value + 1000) % 0x10000);
         }
     }
   swap_buffers ();
