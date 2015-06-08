@@ -1,5 +1,5 @@
 PLL_Name	enet_pll:pll_inst|altpll:altpll_component|enet_pll_altpll:auto_generated|pll1
-PLLJITTER	35
+PLLJITTER	30
 PLLSPEmax	84
 PLLSPEmin	-53
 

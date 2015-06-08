@@ -68,9 +68,9 @@ module altera_up_sync_fifo (
  *                           Parameter Declarations                          *
  *****************************************************************************/
 
-parameter	DW				= 31;		// Data width
+parameter	DW				= 31;
 parameter	DATA_DEPTH	= 128;
-parameter	AW				= 6;		// Address width
+parameter	AW				= 6;
 
 /*****************************************************************************
  *                             Port Declarations                             *
