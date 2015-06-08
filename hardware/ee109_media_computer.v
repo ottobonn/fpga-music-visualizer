@@ -8,20 +8,20 @@ module ee109_media_computer (
 
   //  Communication
   UART_RXD,
-
+  
   // Audio
   AUD_ADCDAT,
-
+  
   //  D5M on HSMC
   HSMC_D5M_PIXEL_CLK,
   HSMC_D5M_CCD_DATA,
   HSMC_D5M_LVAL,
   HSMC_D5M_FVAL,
   HSMC_D5M_STROBE,
-
+  
   // Accelerometer
   HSMC_G_SENSOR_INT1,
-
+  
   // USB
   OTG_INT,
 
@@ -31,7 +31,7 @@ module ee109_media_computer (
 
   // Memory (SRAM)
   SRAM_DQ,
-
+  
   // Memory (SDRAM)
   DRAM_DQ,
 
@@ -40,31 +40,31 @@ module ee109_media_computer (
   PS2_KBDAT,
   PS2_MSCLK,
   PS2_MSDAT,
-
+  
   // Audio
   AUD_BCLK,
   AUD_ADCLRCK,
   AUD_DACLRCK,
-
+  
   // Char LCD 16x2
   LCD_DATA,
 
   // AV Config
   I2C_SDAT,
-
+  
   //  D5M on HSMC
   HSMC_D5M_SDAT,
-
+  
   //Accelerometer
   HSMC_G_SENSOR_SDAT,
-
+  
   //USB
   OTG_DATA,
-
+  
 /*****************************************************************************/
   // Outputs
 //  TD_RESET_N,
-
+  
   //   Simple
   LEDG,
   LEDR,
@@ -77,7 +77,7 @@ module ee109_media_computer (
   HEX5,
   HEX6,
   HEX7,
-
+  
   //   Memory (SRAM)
   SRAM_ADDR,
 
@@ -86,13 +86,13 @@ module ee109_media_computer (
   SRAM_OE_N,
   SRAM_UB_N,
   SRAM_LB_N,
-
+  
   //  Communication
   UART_TXD,
-
+  
   // Memory (SDRAM)
   DRAM_ADDR,
-
+  
   DRAM_BA,
   DRAM_CAS_N,
   DRAM_RAS_N,
@@ -101,11 +101,11 @@ module ee109_media_computer (
   DRAM_CS_N,
   DRAM_WE_N,
   DRAM_DQM,
-
+  
   // Audio
   AUD_XCK,
   AUD_DACDAT,
-
+  
   // VGA
   VGA_CLK,
   VGA_HS,
@@ -122,7 +122,7 @@ module ee109_media_computer (
   LCD_EN,
   LCD_RS,
   LCD_RW,
-
+  
   // AV Config
   I2C_SCLK,
 
@@ -141,42 +141,42 @@ module ee109_media_computer (
   HSMC_LCD_R,
   HSMC_LCD_G,
   HSMC_LCD_B,
-
+  
   //  D5M on HSMC
   HSMC_D5M_XCLK,
   HSMC_D5M_RESET_N,
   HSMC_D5M_TRIGGER,
   HSMC_D5M_SCLK,
-
+      
   // Accelerometer
   HSMC_G_SENSOR_SCLK,
   HSMC_G_SENSOR_ALT_ADDR_SEL,
   HSMC_G_SENSOR_CS_N,
-
-
+  
+  
   //IRDA
   IRDA_RXD,
-
+  
   //SD Card
   SD_CMD,
   SD_DAT,
   SD_CLK,
-
+    
   //Flash
   FL_ADDR,
   FL_CE_N,
   FL_OE_N,
   FL_WE_N,
   FL_RESET_N,
-  FL_DQ,
-
+  FL_DQ,   
+    
   //Video In
-  TD_CLK27,
-  TD_DATA,
-  TD_HS,
-  TD_VS,
+  TD_CLK27,  
+  TD_DATA,   
+  TD_HS,     
+  TD_VS,     
   TD_RESET_N,
-
+  
   // USB
   OTG_ADDR,
   OTG_CS_N,
@@ -189,7 +189,7 @@ module ee109_media_computer (
   ENET0_MDC,
   ENET0_MDIO,
   ENET0_RESET_N,
-
+  
   // Ethernet 1
   ENET1_GTX_CLK,
   ENET1_MDC,
@@ -237,9 +237,9 @@ input           IRDA_RXD;
 
 //  Video In
 input           TD_CLK27;
-input  [ 7: 0]  TD_DATA;
-input           TD_HS;
-input           TD_VS;
+input  [ 7: 0]  TD_DATA;   
+input           TD_HS;  
+input           TD_VS; 
 
 // USB
 input  [ 1: 0]  OTG_INT;
@@ -266,7 +266,7 @@ inout           AUD_DACLRCK;
 
 /* AV Config. */
 inout           I2C_SDAT;
-
+  
 /* Flash. */
 inout  [ 7: 0]  FL_DQ;
 
@@ -351,7 +351,7 @@ output        I2C_SCLK;
 output        HSMC_G_SENSOR_SCLK;
 output        HSMC_G_SENSOR_ALT_ADDR_SEL;
 output        HSMC_G_SENSOR_CS_N;
-
+  
 //  SD Card
 output SD_CLK;
 
@@ -361,8 +361,8 @@ output FL_CE_N;
 output FL_OE_N;
 output FL_WE_N;
 output FL_RESET_N;
-
-//  Video In
+  
+//  Video In  
 output TD_RESET_N;
 
 //  D5M on HSMC
@@ -481,7 +481,7 @@ enet_pll pll_inst (
   .c2    (clk_25),
   .c3    (clk_2p5),
   .locked  (enet_reset_n)
-);
+); 
 
 assign tx_clk = eth_mode ? clk_125 :       // GbE Mode   = 125MHz clock
                 ena_10   ? clk_2p5 :       // 10Mb Mode  = 2.5MHz clock
@@ -494,6 +494,7 @@ enet_ddio_out ddio_out_inst(
   .dataout(ENET1_GTX_CLK)
 );
 
+ 
 
 // NiosII System
 nios_system NiosII (
@@ -509,7 +510,7 @@ nios_system NiosII (
   // the_AV_Config
   .I2C_SDAT_to_and_from_the_AV_Config    (I2C_SDAT),
   .I2C_SCLK_from_the_AV_Config           (I2C_SCLK),
-
+  
   // the_Audio
   .AUD_ADCDAT_to_the_Audio          (AUD_ADCDAT),
   .AUD_BCLK_to_the_Audio            (AUD_BCLK),
@@ -525,6 +526,9 @@ nios_system NiosII (
   .LCD_RS_from_the_Char_LCD_16x2           (LCD_RS),
   .LCD_RW_from_the_Char_LCD_16x2           (LCD_RW),
 
+  // the_Expansion_JP5
+  .GPIO_to_and_from_the_Expansion_JP5    ({GPIO[35:19], GPIO[17], GPIO[15:3], GPIO[1]}),
+
   // the_Green_LEDs
   .LEDG_from_the_Green_LEDs        (LEDG),
 
@@ -533,19 +537,27 @@ nios_system NiosII (
   .HEX1_from_the_HEX3_HEX0        (HEX1),
   .HEX2_from_the_HEX3_HEX0        (HEX2),
   .HEX3_from_the_HEX3_HEX0        (HEX3),
-
+  
   // the_HEX7_HEX4
   .HEX4_from_the_HEX7_HEX4        (HEX4),
   .HEX5_from_the_HEX7_HEX4        (HEX5),
   .HEX6_from_the_HEX7_HEX4        (HEX6),
   .HEX7_from_the_HEX7_HEX4        (HEX7),
 
+  // the_PS2_Port
+  .PS2_CLK_to_and_from_the_PS2_Port    (PS2_KBCLK),
+  .PS2_DAT_to_and_from_the_PS2_Port    (PS2_KBDAT),
+  
+  // the_PS2_Port_Dual
+  .PS2_CLK_to_and_from_the_PS2_Port_Dual  (PS2_MSCLK),
+  .PS2_DAT_to_and_from_the_PS2_Port_Dual  (PS2_MSDAT),
+  
   // the_Pushbuttons
   .KEY_to_the_Pushbuttons          ({KEY[3:1], 1'b1}),
 
   // the_Red_LEDs
   .LEDR_from_the_Red_LEDs          (LEDR),
-
+  
   // the_SDRAM
   .zs_addr_from_the_SDRAM          (DRAM_ADDR),
   .zs_ba_from_the_SDRAM          (DRAM_BA),
@@ -556,7 +568,7 @@ nios_system NiosII (
   .zs_dqm_from_the_SDRAM          (DRAM_DQM),
   .zs_ras_n_from_the_SDRAM        (DRAM_RAS_N),
   .zs_we_n_from_the_SDRAM          (DRAM_WE_N),
-
+  
   // the_SRAM
   .SRAM_DQ_to_and_from_the_SRAM      (SRAM_DQ),
   .SRAM_ADDR_from_the_SRAM           (SRAM_ADDR),
@@ -566,23 +578,92 @@ nios_system NiosII (
   .SRAM_OE_N_from_the_SRAM           (SRAM_OE_N),
   .SRAM_WE_N_from_the_SRAM           (SRAM_WE_N),
 
+  // the_Serial_port
+  .UART_RXD_to_the_Serial_Port        (UART_RXD),
+  .UART_TXD_from_the_Serial_Port      (UART_TXD),
+  
   // the_Slider_switches
   .Slider_Switches_external_interface_export        (SW),
 
+  // the_VGA_Controller
+  .vga_controller_external_interface_CLK    (VGA_CLK),
+  .vga_controller_external_interface_HS     (VGA_HS),
+  .vga_controller_external_interface_VS     (VGA_VS),
+  .vga_controller_external_interface_BLANK  (VGA_BLANK_N),
+  .vga_controller_external_interface_SYNC   (VGA_SYNC_N),
+  .vga_controller_external_interface_R      (VGA_R),
+  .vga_controller_external_interface_G      (VGA_G),
+  .vga_controller_external_interface_B      (VGA_B),
+  
+  // IRDA
+// .irda_TXD                                  (IRDA_TXD),
+   .irda_RXD                                  (IRDA_RXD),
+  
   //SD Card
    .sdcard_b_SD_cmd                           (SD_CMD),
    .sdcard_b_SD_dat                           (SD_DAT[0]),
    .sdcard_b_SD_dat3                          (SD_DAT[3]),
    .sdcard_o_SD_clock                         (SD_CLK),
-
+  
   //Flash
    .flash_ADDR                                (FL_ADDR),
    .flash_CE_N                                (FL_CE_N),
    .flash_OE_N                                (FL_OE_N),
    .flash_WE_N                                (FL_WE_N),
    .flash_RST_N                               (FL_RESET_N),
-   .flash_DQ                                  (FL_DQ),
-
+   .flash_DQ                                  (FL_DQ),   
+  
+  //Video In
+   .video_in_TD_CLK27                         (TD_CLK27),  
+   .video_in_TD_DATA                          (TD_DATA),   
+   .video_in_TD_HS                            (TD_HS),     
+   .video_in_TD_VS                            (TD_VS),     
+   .video_in_TD_RESET                         (TD_RESET_N),  
+   .video_in_clk27_reset            (!KEY[0]),
+// .video_in_overflow_flag                    (<connected-to-video_in_overflow_flag>),
+  
+   //Ethernet 1
+   .enet_pcs_mac_tx_clk            (tx_clk),       
+   .enet_pcs_mac_rx_clk            (ENET1_RX_CLK),     
+   .enet_mac_mdio_mdc                 (mdc),               
+   .enet_mac_mdio_mdio_in               (mdio_in),           
+   .enet_mac_mdio_mdio_out              (mdio_out),          
+   .enet_mac_mdio_mdio_oen              (mdio_oen),          
+   .enet_mac_rgmii_rgmii_in             (ENET1_RX_DATA),     
+   .enet_mac_rgmii_rgmii_out            (ENET1_TX_DATA),     
+   .enet_mac_rgmii_rx_control           (ENET1_RX_DV),      
+   .enet_mac_rgmii_tx_control           (ENET1_TX_EN),      
+   .enet_mac_status_eth_mode            (eth_mode),          
+   .enet_mac_status_ena_10              (ena_10),   
+  
+/*  //Ethernet 0
+   .ethernet_0_rgmii_in                       (<connected-to-ethernet_0_rgmii_in>),       
+   .ethernet_0_rgmii_out                      (<connected-to-ethernet_0_rgmii_out>),       
+   .ethernet_0_rx_control                     (<connected-to-ethernet_0_rx_control>),      
+   .ethernet_0_tx_control                     (<connected-to-ethernet_0_tx_control>),      
+   .ethernet_0_tx_clk                         (<connected-to-ethernet_0_tx_clk>),          
+   .ethernet_0_rx_clk                         (<connected-to-ethernet_0_rx_clk>),         
+   .ethernet_0_set_10                         (<connected-to-ethernet_0_set_10>),          
+   .ethernet_0_set_1000                       (<connected-to-ethernet_0_set_1000>),          
+   .ethernet_0_ena_10                         (<connected-to-ethernet_0_ena_10>),             
+   .ethernet_0_eth_mode                       (<connected-to-ethernet_0_eth_mode>),            
+   .ethernet_0_mdio_out                       (<connected-to-ethernet_0_mdio_out>),            
+   .ethernet_0_mdio_oen                       (<connected-to-ethernet_0_mdio_oen>),                   
+   .ethernet_0_mdio_in                        (<connected-to-ethernet_0_mdio_in>),                    
+   .ethernet_0_mdc                            (<connected-to-ethernet_0_mdc>),
+*/
+   //5MP Camera Config  
+   .camera_config_I2C_SDAT                    (HSMC_D5M_SDAT),            
+   .camera_config_I2C_SCLK                    (HSMC_D5M_SCLK),             
+   .camera_config_exposure                    (16'h0300),
+  
+  //5MP Camera Ports
+   .camera_in_PIXEL_CLK                       (HSMC_D5M_PIXEL_CLK),
+   .camera_in_LINE_VALID                      (HSMC_D5M_LVAL),
+   .camera_in_FRAME_VALID                     (HSMC_D5M_FVAL),
+   .camera_in_PIXEL_DATA                      (HSMC_D5M_CCD_DATA),
+   .camera_in_pixel_clk_reset                 (!KEY[0]),
+  
   //LCD Touchscreen
    .lcd_controller_external_interface_CLK     (HSMC_LCD_CLK),
    .lcd_controller_external_interface_HS      (HSMC_LCD_HS),
@@ -591,8 +672,24 @@ nios_system NiosII (
    .lcd_controller_external_interface_R       (HSMC_LCD_R[7:0]),
    .lcd_controller_external_interface_G       (HSMC_LCD_G[7:0]),
    .lcd_controller_external_interface_B       (HSMC_LCD_B[7:0]),
-
-  .vga_clk_out_clk_clk                        (HSMC_D5M_XCLK)
+  
+  .vga_clk_out_clk_clk                        (HSMC_D5M_XCLK),
+  
+  .accelerometer_I2C_SDAT                     (HSMC_G_SENSOR_SDAT),
+   .accelerometer_I2C_SCLK                    (HSMC_G_SENSOR_SCLK),
+   .accelerometer_G_SENSOR_CS_N               (HSMC_G_SENSOR_CS_N),
+   .accelerometer_G_SENSOR_INT                (HSMC_G_SENSOR_INT1),
+  
+  // the USB             
+   .usb_INT1                               (OTG_INT[1]),
+   .usb_DATA                               (OTG_DATA),
+   .usb_RST_N                              (OTG_RST_N),
+   .usb_ADDR                               (OTG_ADDR),
+   .usb_CS_N                               (OTG_CS_N),
+   .usb_RD_N                               (OTG_OE_N),
+   .usb_WR_N                               (OTG_WE_N),
+   .usb_INT0                               (OTG_INT[0]),
 );
 
 endmodule
+
