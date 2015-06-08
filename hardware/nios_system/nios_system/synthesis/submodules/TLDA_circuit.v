@@ -134,7 +134,7 @@ assign Draw = Draw_Small; // TLDA only draws when small LDA draws
 always @(*) begin
   case (current_state)
     STATE_IDLE: begin // Wait for Go
-      if (X == X1_new) begin
+      if (X == X1_new) begin // Do nothing for nonexistent lines
         next_state = STATE_DONE;
       end else begin
         next_state = Go ? STATE_START_LDA : STATE_IDLE;
@@ -155,6 +155,9 @@ always @(*) begin
       end else begin
         next_state = STATE_WAIT_FOR_LDA;
       end
+      next_X = X;
+      next_Y = Y;
+      next_error = error;
     end
     STATE_ADVANCE: begin // Advance along the main line
       next_state = STATE_START_LDA;
