@@ -12,7 +12,6 @@
         <type>BSP</type>
         <options>
             <source_files>
-                <source_file filepath="true">src\ethernet_isr.c</source_file>
                 <source_file filepath="true">src\pushbuttons_isr.c</source_file>
                 <source_file filepath="true">src\switches_isr.c</source_file>
                 <source_file filepath="true">src\system_globals.c</source_file>
@@ -22,7 +21,6 @@
                 <source_file filepath="true">src\ee109-lib\pushbuttons.c</source_file>
                 <source_file filepath="true">src\ee109-lib\red_leds.c</source_file>
                 <source_file filepath="true">src\ee109-lib\switches.c</source_file>
-                <source_file filepath="true">src\ee109-lib\vga.c</source_file>
                 <source_file filepath="true">src\ee109-lib\char_lcd.c</source_file>
                 <source_file filepath="true">src\main.c</source_file>
                 <source_file filepath="true">src\audio_isr.c</source_file>
